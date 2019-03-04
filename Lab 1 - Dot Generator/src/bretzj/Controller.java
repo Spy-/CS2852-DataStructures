@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 1 - Dot 2 Dot Generator
+ * Name: John Bretz
+ * Created: 3/4/2019
+ */
 package bretzj;
 
 import javafx.application.Platform;
@@ -9,6 +16,9 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * JavaFX controller class
+ */
 public class Controller {
     @FXML
     private Canvas picture;
@@ -43,7 +53,7 @@ public class Controller {
         try {
             Picture.readDotFile(selectedFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found.");
         }
     }
 
@@ -56,7 +66,7 @@ public class Controller {
             Picture.drawDots(picture);
             Picture.drawLines(picture);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found");
         }
     }
 }

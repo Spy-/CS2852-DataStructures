@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 1 - Dot 2 Dot Generator
+ * Name: John Bretz
+ * Created: 3/4/2019
+ */
 package bretzj;
 
 import javafx.scene.canvas.Canvas;
@@ -8,10 +15,19 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class that handles reading dot files and rendering the information to the screen
+ */
 public class Picture {
 
     private static ArrayList<Dot> dots = new ArrayList<>();
 
+    /**
+     * Reads the given file and creates a list of Dot objects
+     *
+     * @param file the file
+     * @throws FileNotFoundException if the file isn't there
+     */
     public static void readDotFile(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
         dots.clear();
@@ -22,14 +38,25 @@ public class Picture {
         }
     }
 
+    /**
+     * Renders the dots to the given canvas
+     *
+     * @param canvas the canvas
+     */
     public static void drawDots(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        final double size = 7;
 
         for (Dot d : dots) {
-            gc.fillOval(d.getX() - 3.5, d.getY() - 3.5, 7, 7);
+            gc.fillOval(d.getX() - size / 2, d.getY() - size / 2, size, size);
         }
     }
 
+    /**
+     * Renders the lines between dots to the given canvas
+     *
+     * @param canvas the canvas
+     */
     public static void drawLines(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
