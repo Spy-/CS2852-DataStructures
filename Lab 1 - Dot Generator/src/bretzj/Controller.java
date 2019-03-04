@@ -53,20 +53,16 @@ public class Controller {
         try {
             Picture.readDotFile(selectedFile);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
-        }
+            Util.throwAlert("File not found", "The file does not exist.").show();
+        } catch (NullPointerException ignored) {}
     }
 
     @FXML
     void initialize() {
         try {
-//            Picture.readDotFile(new File("balloon100.dot"));
-//            Picture.readDotFile(new File("circle.dot"));
             Picture.readDotFile(new File("magician.dot"));
             Picture.drawDots(picture);
             Picture.drawLines(picture);
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
+        } catch (FileNotFoundException ignored) { }
     }
 }
