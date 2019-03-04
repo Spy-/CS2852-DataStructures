@@ -8,12 +8,19 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static final double WIDTH = 600;
+    public static final double HEIGHT = 600;
+    public static Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("Lab 1 - Dot Generator");
+        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setResizable(false);
         primaryStage.show();
+
+        stage = primaryStage;
     }
 
 
