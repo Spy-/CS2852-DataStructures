@@ -37,8 +37,8 @@ public class Main extends Application {
      * @throws Exception some exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("generator.fxml"));
         primaryStage.setTitle("Lab 1 - Dot Generator");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.setResizable(false);

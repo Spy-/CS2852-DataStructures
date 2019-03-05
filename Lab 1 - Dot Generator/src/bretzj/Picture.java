@@ -38,7 +38,8 @@ public class Picture {
                 dots.add(new Dot(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])));
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            Util.throwAlert("Error while reading file", "Encountered an error while reading the file").show();
+            Util.throwAlert("Error while reading file",
+                    "Encountered an error while reading the file").show();
         }
     }
 

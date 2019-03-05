@@ -54,7 +54,7 @@ public class Controller {
             Picture.readDotFile(selectedFile);
         } catch (FileNotFoundException e) {
             Util.throwAlert("File not found", "The file does not exist.").show();
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) { }
     }
 
     @FXML
