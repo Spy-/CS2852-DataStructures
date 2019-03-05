@@ -15,6 +15,9 @@ def zipDir(path, ziph):
 def main():
    print(Figlet(font='slant').renderText('taylorize'))
 
+   if not os.path.exists("_Submitals"):
+      os.mkdir("_Submitals")
+
    while True:
       project = input("What is the project's name\n")
 
