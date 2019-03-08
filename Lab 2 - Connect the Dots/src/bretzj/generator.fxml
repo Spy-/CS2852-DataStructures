@@ -10,14 +10,16 @@
     <MenuBar prefWidth="25.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#open" text="Open"/>
+            <MenuItem mnemonicParsing="false" onAction="#save" text="Save"/>
             <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Draw">
             <MenuItem mnemonicParsing="false" onAction="#linesOnly" text="Lines Only"/>
             <MenuItem mnemonicParsing="false" onAction="#dotsOnly" text="Dots Only"/>
+            <MenuItem mnemonicParsing="false" onAction="#removeDots" text="Remove Dots"/>
         </Menu>
     </MenuBar>
     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
-        <Canvas fx:id="picture" height="575.0" width="600.0" HBox.hgrow="ALWAYS"/>
+        <Canvas fx:id="canvas" height="575.0" width="600.0" HBox.hgrow="ALWAYS"/>
     </HBox>
 </VBox>
