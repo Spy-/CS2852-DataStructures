@@ -9,10 +9,12 @@ package bretzj;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -20,7 +22,18 @@ import java.util.Scanner;
  */
 public class Picture {
 
-    private static ArrayList<Dot> dots = new ArrayList<>();
+    private List<Dot> dots;
+
+    public Picture(List<Dot> emptyList) {
+        emptyList.clear();
+        dots = emptyList;
+    }
+
+    public Picture(Picture original, List<Dot> emptyList) {
+        emptyList.clear();
+        emptyList.addAll(original.getDots());
+        dots = emptyList;
+    }
 
     /**
      * Reads the given file and creates a list of Dot objects
@@ -28,7 +41,7 @@ public class Picture {
      * @param file the file
      * @throws FileNotFoundException if the file isn't there
      */
-    public static void readDotFile(File file) throws FileNotFoundException {
+    public void readDotFile(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
         dots.clear();
 
@@ -38,9 +51,18 @@ public class Picture {
                 dots.add(new Dot(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])));
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            Util.throwAlert("Error while reading file",
+            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
                     "Encountered an error while reading the file").show();
         }
+    }
+
+    public void saveDotFile(File file) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(file);
+
+        for (Dot d : dots) {
+            pw.println(d.getX() + "," + d.getY());
+        }
+        pw.close();
     }
 
     /**
@@ -48,7 +70,7 @@ public class Picture {
      *
      * @param canvas the canvas
      */
-    public static void drawDots(Canvas canvas) {
+    public void drawDots(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         final double size = 7;
 
@@ -64,7 +86,7 @@ public class Picture {
      *
      * @param canvas the canvas
      */
-    public static void drawLines(Canvas canvas) {
+    public void drawLines(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         if (dots.size() > 0) {
@@ -77,5 +99,31 @@ public class Picture {
             gc.closePath();
             gc.stroke();
         }
+    }
+
+    public void removeDots(int numberDesired) { // TODO cleanup
+
+        while (dots.size() > numberDesired) {
+            double lowestValue = Double.MAX_VALUE;
+            Dot toRemove = null;
+
+            for (int i = 1; i < dots.size() - 1; i++) {
+                Dot current = dots.get(i);
+                Dot prev = dots.get(i - 1);
+                Dot next = dots.get(i + 1);
+                double criticalValue = current.calculateCriticalValue(prev, next);
+
+                if (criticalValue < lowestValue) {
+                    lowestValue = criticalValue;
+                    toRemove = current;
+                }
+            }
+
+            dots.remove(toRemove);
+        }
+    }
+
+    public List<Dot> getDots() {
+        return dots;
     }
 }

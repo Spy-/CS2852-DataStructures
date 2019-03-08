@@ -11,17 +11,27 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Optional;
+
+import static bretzj.Util.clearCanvas;
 
 /**
  * JavaFX controller class
  */
 public class Controller {
     @FXML
-    private Canvas picture;
+    private Canvas canvas;
+
+    private Picture picture;
 
     @FXML
     void close(ActionEvent event) {
@@ -30,14 +40,14 @@ public class Controller {
 
     @FXML
     void dotsOnly(ActionEvent event) {
-        picture.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
-        Picture.drawDots(picture);
+        canvas.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        picture.drawDots(canvas);
     }
 
     @FXML
     void linesOnly(ActionEvent event) {
-        picture.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
-        Picture.drawLines(picture);
+        canvas.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        picture.drawLines(canvas);
     }
 
     @FXML
@@ -51,21 +61,66 @@ public class Controller {
         File selectedFile = fc.showOpenDialog(Main.stage);
 
         try {
-            Picture.readDotFile(selectedFile);
-            picture.getGraphicsContext2D().clearRect(0,0,Main.WIDTH,Main.HEIGHT);
-            Picture.drawDots(picture);
-            Picture.drawLines(picture);
+            picture.readDotFile(selectedFile);
+            clearCanvas(canvas);
+            picture.drawDots(canvas);
+            picture.drawLines(canvas);
         } catch (FileNotFoundException e) {
-            Util.throwAlert("File not found", "The file does not exist.").show();
-        } catch (NullPointerException ignored) { }
+            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found", "The file does not exist.").show();
+        } catch (NullPointerException ignored) {
+        }
+    }
+
+    @FXML
+    void save(ActionEvent event) { //TODO get it to be on a scale of 0 to 1 and origin being in the bottom left corner
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Dot File");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Dot Files", "*.dot"),
+                new FileChooser.ExtensionFilter("All Files", "*")
+        );
+
+        File selectedFile = fc.showOpenDialog(Main.stage);
+
+        try {
+            picture.saveDotFile(selectedFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     void initialize() {
+        picture = new Picture(new LinkedList<>());
         try {
-            Picture.readDotFile(new File("balloon.dot"));
-            Picture.drawDots(picture);
-            Picture.drawLines(picture);
-        } catch (FileNotFoundException ignored) { }
+            picture.readDotFile(new File("skull.dot"));
+            picture.drawDots(canvas);
+            picture.drawLines(canvas);
+        } catch (FileNotFoundException ignored) {
+        }
+    }
+
+    public void removeDots(ActionEvent actionEvent) {
+        Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover", "How many dots do you want to stay");
+        Optional result = dialog.showAndWait();
+
+        int number;
+        try {
+            number = (int) Double.parseDouble((String) result.get());
+            if (number < 3) {
+                number = 3;
+            }
+        } catch (NumberFormatException ignored) {
+            number = picture.getDots().size();
+        }
+
+        System.out.println("Size: " + picture.getDots().size());
+
+        picture.removeDots(number);
+        clearCanvas(canvas);
+        picture.drawDots(canvas);
+        picture.drawLines(canvas);
+
+        System.out.println("Size: " + picture.getDots().size());
     }
 }
