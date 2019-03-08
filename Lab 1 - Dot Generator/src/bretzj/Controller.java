@@ -52,6 +52,9 @@ public class Controller {
 
         try {
             Picture.readDotFile(selectedFile);
+            picture.getGraphicsContext2D().clearRect(0,0,Main.WIDTH,Main.HEIGHT);
+            Picture.drawDots(picture);
+            Picture.drawLines(picture);
         } catch (FileNotFoundException e) {
             Util.throwAlert("File not found", "The file does not exist.").show();
         } catch (NullPointerException ignored) { }
