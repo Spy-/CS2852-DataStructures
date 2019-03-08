@@ -7,6 +7,8 @@
  */
 package bretzj;
 
+import static bretzj.Util.dist;
+
 /**
  * The class that stores the x and y values for each dot
  */
@@ -24,6 +26,12 @@ public class Dot {
     public Dot(double x, double y) {
         this.x = (x * Main.WIDTH);
         this.y = Main.HEIGHT - (y * Main.HEIGHT);
+    }
+
+    public double calculateCriticalValue(Dot prev, Dot next) {
+        return dist(prev.getX(),prev.getY(),x,y) +  // previous to this
+               dist(x,y,next.getX(),next.getY()) -  // this to next
+               dist(prev.getX(),prev.getY(),next.getX(),next.getY()); // prev to next
     }
 
     public double getX() {
