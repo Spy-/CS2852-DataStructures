@@ -19,10 +19,10 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Optional;
 
 import static bretzj.Util.clearCanvas;
+import static bretzj.Util.throwAlert;
 
 /**
  * JavaFX controller class
@@ -66,7 +66,8 @@ public class Controller {
             picture.drawDots(canvas);
             picture.drawLines(canvas);
         } catch (FileNotFoundException e) {
-            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found", "The file does not exist.").show();
+            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
+                    "The file does not exist.").show();
         } catch (NullPointerException ignored) {
         }
     }
@@ -85,21 +86,12 @@ public class Controller {
         try {
             picture.saveDotFile(selectedFile);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
+                    "The file doesn't exist.").show();
         }
     }
 
     @FXML
-    void initialize() {
-        picture = new Picture(new LinkedList<>());
-        try {
-            picture.readDotFile(new File("skull.dot"));
-            picture.drawDots(canvas);
-            picture.drawLines(canvas);
-        } catch (FileNotFoundException ignored) {
-        }
-    }
-
     public void removeDots(ActionEvent actionEvent) {
         Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover", "How many dots do you want to stay");
         Optional result = dialog.showAndWait();
@@ -114,13 +106,26 @@ public class Controller {
             number = picture.getDots().size();
         }
 
-        System.out.println("Size: " + picture.getDots().size());
+        Picture temp = new Picture(picture, new ArrayList<>());
 
-        picture.removeDots(number);
+        System.out.println("Size: " + temp.getDots().size());
+
+        temp.removeDots(number);
         clearCanvas(canvas);
-        picture.drawDots(canvas);
-        picture.drawLines(canvas);
+        temp.drawDots(canvas);
+        temp.drawLines(canvas);
 
-        System.out.println("Size: " + picture.getDots().size());
+        System.out.println("Size: " + temp.getDots().size());
+    }
+
+    @FXML
+    void initialize() {
+        picture = new Picture(new ArrayList<>());
+        try {
+            picture.readDotFile(new File("skull.dot"));
+            picture.drawDots(canvas);
+            picture.drawLines(canvas);
+        } catch (FileNotFoundException ignored) {
+        }
     }
 }
