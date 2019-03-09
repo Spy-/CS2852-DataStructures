@@ -24,11 +24,22 @@ public class Picture {
 
     private List<Dot> dots;
 
+    /**
+     * Constructor for a Picture
+     *
+     * @param emptyList a list to store the dots
+     */
     public Picture(List<Dot> emptyList) {
         emptyList.clear();
         dots = emptyList;
     }
 
+    /**
+     * Constructs a Picture by copying the dots from the given picture into the new one
+     *
+     * @param original  the original picture
+     * @param emptyList a list to store the dots
+     */
     public Picture(Picture original, List<Dot> emptyList) {
         emptyList.clear();
         emptyList.addAll(original.getDots());
@@ -56,11 +67,17 @@ public class Picture {
         }
     }
 
+    /**
+     * Saves the current canvas to the given file
+     *
+     * @param file the file
+     * @throws FileNotFoundException if the file doesn't exist
+     */
     public void saveDotFile(File file) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(file);
 
         for (Dot d : dots) {
-            pw.println(d.getX() + "," + d.getY());
+            pw.println(d.getX() / Main.WIDTH + "," + (1.0 - (d.getY() / Main.HEIGHT)));
         }
         pw.close();
     }
@@ -101,10 +118,15 @@ public class Picture {
         }
     }
 
-    public void removeDots(int numberDesired) { // TODO cleanup
+    /**
+     * Removes dots until a certain amount of dots are left
+     *
+     * @param numberDesired the number of dots to remain
+     */
+    public void removeDots(int numberDesired) {
+        double lowestValue = Double.MAX_VALUE;
 
         while (dots.size() > numberDesired) {
-            double lowestValue = Double.MAX_VALUE;
             Dot toRemove = null;
 
             for (int i = 1; i < dots.size() - 1; i++) {

@@ -8,7 +8,6 @@
 package bretzj;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
@@ -31,27 +30,40 @@ public class Controller {
     @FXML
     private Canvas canvas;
 
+    private Picture container = new Picture(new ArrayList<>());
     private Picture picture;
 
+    /**
+     * Closes the window
+     */
     @FXML
-    void close(ActionEvent event) {
+    void close() {
         Platform.exit();
     }
 
+    /**
+     * Removes the lines from the canvas
+     */
     @FXML
-    void dotsOnly(ActionEvent event) {
+    void dotsOnly() {
         canvas.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         picture.drawDots(canvas);
     }
 
+    /**
+     * removes the dots from the canvas
+     */
     @FXML
-    void linesOnly(ActionEvent event) {
+    void linesOnly() {
         canvas.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         picture.drawLines(canvas);
     }
 
+    /**
+     * Opens a file
+     */
     @FXML
-    void open(ActionEvent event) {
+    void open() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Dot File");
         fc.getExtensionFilters().add(
@@ -61,7 +73,8 @@ public class Controller {
         File selectedFile = fc.showOpenDialog(Main.stage);
 
         try {
-            picture.readDotFile(selectedFile);
+            container.readDotFile(selectedFile);
+            picture = new Picture(container, new ArrayList<>());
             clearCanvas(canvas);
             picture.drawDots(canvas);
             picture.drawLines(canvas);
@@ -72,8 +85,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Saves a file
+     */
     @FXML
-    void save(ActionEvent event) { //TODO get it to be on a scale of 0 to 1 and origin being in the bottom left corner
+    void save() {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Dot File");
         fc.getExtensionFilters().addAll(
@@ -91,9 +107,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Opens the remove dots dialog
+     */
     @FXML
-    public void removeDots(ActionEvent actionEvent) {
-        Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover", "How many dots do you want to stay");
+    void removeDots() {
+        Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover",
+                "How many dots do you want to stay");
         Optional result = dialog.showAndWait();
 
         int number;
@@ -103,29 +123,32 @@ public class Controller {
                 number = 3;
             }
         } catch (NumberFormatException ignored) {
-            number = picture.getDots().size();
+            number = container.getDots().size();
         }
 
-        Picture temp = new Picture(picture, new ArrayList<>());
+        picture = new Picture(container, new ArrayList<>());
 
-        System.out.println("Size: " + temp.getDots().size());
+        System.out.println("Size: " + picture.getDots().size());
 
-        temp.removeDots(number);
+        picture.removeDots(number);
         clearCanvas(canvas);
-        temp.drawDots(canvas);
-        temp.drawLines(canvas);
+        picture.drawDots(canvas);
+        picture.drawLines(canvas);
 
-        System.out.println("Size: " + temp.getDots().size());
+        System.out.println("Size: " + picture.getDots().size());
     }
 
+    /**
+     * Initializes things for testing purposes
+     */
     @FXML
     void initialize() {
-        picture = new Picture(new ArrayList<>());
-        try {
-            picture.readDotFile(new File("skull.dot"));
-            picture.drawDots(canvas);
-            picture.drawLines(canvas);
-        } catch (FileNotFoundException ignored) {
-        }
+//        try {
+//            container.readDotFile(new File("skull.dot"));
+//            picture = new Picture(container, new ArrayList<>());
+//            picture.drawDots(canvas);
+//            picture.drawLines(canvas);
+//        } catch (FileNotFoundException ignored) {
+//        }
     }
 }

@@ -28,10 +28,17 @@ public class Dot {
         this.y = Main.HEIGHT - (y * Main.HEIGHT);
     }
 
+    /**
+     * Calculates the critical value of the dot
+     *
+     * @param prev the previous dot in the list
+     * @param next the next dot in the list
+     * @return the critical value
+     */
     public double calculateCriticalValue(Dot prev, Dot next) {
-        return dist(prev.getX(),prev.getY(),x,y) +  // previous to this
-               dist(x,y,next.getX(),next.getY()) -  // this to next
-               dist(prev.getX(),prev.getY(),next.getX(),next.getY()); // prev to next
+        return dist(prev.getX(), prev.getY(), x, y) +  // previous to this
+                dist(x, y, next.getX(), next.getY()) -  // this to next
+                dist(prev.getX(), prev.getY(), next.getX(), next.getY()); // prev to next
     }
 
     public double getX() {
