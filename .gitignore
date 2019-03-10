@@ -63,4 +63,4 @@ nb-configuration.xml
 ##########################
 ## Custom
 ##########################
-_Submitals/
+*.zip
