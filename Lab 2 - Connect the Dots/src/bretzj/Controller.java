@@ -1,9 +1,9 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 1 - Dot 2 Dot Generator
+ * Lab 2 - Connect the Dots
  * Name: John Bretz
- * Created: 3/4/2019
+ * Created: 3/8/2019
  */
 package bretzj;
 
@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -73,7 +74,7 @@ public class Controller {
         File selectedFile = fc.showOpenDialog(Main.stage);
 
         try {
-            container.readDotFile(selectedFile);
+            container.load(selectedFile.toPath());
             picture = new Picture(container, new ArrayList<>());
             clearCanvas(canvas);
             picture.drawDots(canvas);
@@ -81,6 +82,9 @@ public class Controller {
         } catch (FileNotFoundException e) {
             Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
                     "The file does not exist.").show();
+        } catch (IOException e) {
+            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
+                    "Encountered an error while reading the file").show();
         } catch (NullPointerException ignored) {
         }
     }
@@ -143,12 +147,12 @@ public class Controller {
      */
     @FXML
     void initialize() {
-//        try {
-//            container.readDotFile(new File("skull.dot"));
-//            picture = new Picture(container, new ArrayList<>());
-//            picture.drawDots(canvas);
-//            picture.drawLines(canvas);
-//        } catch (FileNotFoundException ignored) {
-//        }
+        try {
+            container.load(new File("dove.dot").toPath());
+            picture = new Picture(container, new ArrayList<>());
+            picture.drawDots(canvas);
+            picture.drawLines(canvas);
+        } catch (IOException ignored) {
+        }
     }
 }

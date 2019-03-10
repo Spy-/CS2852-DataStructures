@@ -1,9 +1,9 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 1 - Dot 2 Dot Generator
+ * Lab 2 - Connect the Dots
  * Name: John Bretz
- * Created: 3/4/2019
+ * Created: 3/8/2019
  */
 package bretzj;
 
@@ -17,9 +17,10 @@ public class Util {
 
     /**
      * Creates a dialog
-     * @param type a dialog
-     * @param title the dialog's title
-     * @param header the header text
+     *
+     * @param type    a dialog
+     * @param title   the dialog's title
+     * @param header  the header text
      * @param content the content text
      * @return the created dialog
      */
@@ -33,6 +34,7 @@ public class Util {
 
     /**
      * Calculates the distance between two points
+     *
      * @param x1 first x coordinate
      * @param y1 first y coordinate
      * @param x2 second x coordinate
@@ -48,6 +50,7 @@ public class Util {
 
     /**
      * Clears the given given canvas
+     *
      * @param canvas the canvas
      */
     public static void clearCanvas(Canvas canvas) {

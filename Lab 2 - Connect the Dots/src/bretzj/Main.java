@@ -1,9 +1,9 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 1 - Dot 2 Dot Generator
+ * Lab 2 - Connect the Dots
  * Name: John Bretz
- * Created: 3/4/2019
+ * Created: 3/8/2019
  */
 package bretzj;
 
@@ -33,6 +33,7 @@ public class Main extends Application {
 
     /**
      * JavaFX entry point
+     *
      * @param primaryStage the window stage
      * @throws Exception some exception
      */
@@ -49,6 +50,7 @@ public class Main extends Application {
 
     /**
      * Main method
+     *
      * @param args cmd line arguments
      */
     public static void main(String[] args) {

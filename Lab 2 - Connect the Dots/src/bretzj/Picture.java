@@ -1,19 +1,20 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 1 - Dot 2 Dot Generator
+ * Lab 2 - Connect the Dots
  * Name: John Bretz
- * Created: 3/4/2019
+ * Created: 3/8/2019
  */
 package bretzj;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,21 +50,24 @@ public class Picture {
     /**
      * Reads the given file and creates a list of Dot objects
      *
-     * @param file the file
+     * @param path the file's path
      * @throws FileNotFoundException if the file isn't there
      */
-    public void readDotFile(File file) throws FileNotFoundException {
-        Scanner scan = new Scanner(file);
-        dots.clear();
-
-        try {
+    public void load(Path path) throws IOException {
+        try (Scanner scan = new Scanner(path.getFileName())) {
+            dots.clear();
+            double x, y;
             while (scan.hasNextLine()) {
                 String[] coord = scan.nextLine().split(",");
-                dots.add(new Dot(Double.parseDouble(coord[0]), Double.parseDouble(coord[1])));
+                x = Double.parseDouble(coord[0]);
+                y = Double.parseDouble(coord[1]);
+
+                if ((x >= 0.0 && x <= 1.0) && (y >= 0.0 && y <= 1.0)) {
+                    dots.add(new Dot(x, y));
+                }
             }
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
-                    "Encountered an error while reading the file").show();
+            throw new IOException("Corrupted File");
         }
     }
 
@@ -124,16 +128,18 @@ public class Picture {
      * @param numberDesired the number of dots to remain
      */
     public void removeDots(int numberDesired) {
-        double lowestValue = Double.MAX_VALUE;
+        double lowestValue, criticalValue;
+        Dot toRemove, current, prev, next;
 
         while (dots.size() > numberDesired) {
-            Dot toRemove = null;
+            toRemove = null;
+            lowestValue = Double.MAX_VALUE;
 
             for (int i = 1; i < dots.size() - 1; i++) {
-                Dot current = dots.get(i);
-                Dot prev = dots.get(i - 1);
-                Dot next = dots.get(i + 1);
-                double criticalValue = current.calculateCriticalValue(prev, next);
+                current = dots.get(i);
+                prev = dots.get(i - 1);
+                next = dots.get(i + 1);
+                criticalValue = current.calculateCriticalValue(prev, next);
 
                 if (criticalValue < lowestValue) {
                     lowestValue = criticalValue;

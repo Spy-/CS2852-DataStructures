@@ -1,9 +1,9 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 1 - Dot 2 Dot Generator
+ * Lab 2 - Connect the Dots
  * Name: John Bretz
- * Created: 3/4/2019
+ * Created: 3/8/2019
  */
 package bretzj;
 
@@ -14,8 +14,8 @@ import static bretzj.Util.dist;
  */
 public class Dot {
 
-    private double x;
-    private double y;
+    private final double x;
+    private final double y;
 
     /**
      * Constructor for a Dot object
