@@ -54,7 +54,7 @@ public class Picture {
      * Reads the given file and creates a list of Dot objects
      *
      * @param path the file's path
-     * @throws FileNotFoundException if the file isn't there
+     * @throws IOException if the file isn't there
      */
     public void load(Path path) throws IOException {
         try (Scanner scan = new Scanner(path.getFileName())) {
