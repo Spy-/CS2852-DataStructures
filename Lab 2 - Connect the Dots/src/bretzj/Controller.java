@@ -156,17 +156,17 @@ public class Controller {
         System.out.println("Size: " + picture.getDots().size());
     }
 
-    /**
-     * Initializes things for testing purposes
-     */
-    @FXML
-    void initialize() {
-        try {
-            container.load(new File("dove.dot").toPath());
-            picture = new Picture(container, new ArrayList<>());
-            picture.drawDots(canvas);
-            picture.drawLines(canvas);
-        } catch (IOException ignored) {
-        }
-    }
+//    /**
+//     * Initializes things for testing purposes
+//     */
+//    @FXML
+//    void initialize() {
+//        try {
+//            container.load(new File("dove.dot").toPath());
+//            picture = new Picture(container, new ArrayList<>());
+//            picture.drawDots(canvas);
+//            picture.drawLines(canvas);
+//        } catch (IOException ignored) {
+//        }
+//    }
 }

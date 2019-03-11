@@ -33,6 +33,9 @@ public class Main extends Application {
      */
     public static Stage stage;
 
+    /** Base title of the stage */
+    public static String title = "Lab 1 - Dot Generator";
+
     /**
      * JavaFX entry point
      *
@@ -41,13 +44,13 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
+
         Parent root = FXMLLoader.load(getClass().getResource("generator.fxml"));
-        primaryStage.setTitle("Lab 1 - Dot Generator");
+        primaryStage.setTitle(Main.title);
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        stage = primaryStage;
     }
 
     /**

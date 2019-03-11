@@ -69,6 +69,7 @@ public class Picture {
                     dots.add(new Dot(x, y));
                 }
             }
+            resetTitle();
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             throw new IOException("Corrupted File");
         }
@@ -152,9 +153,17 @@ public class Picture {
 
             dots.remove(toRemove);
         }
+        resetTitle();
     }
 
     public List<Dot> getDots() {
         return dots;
+    }
+
+    /**
+     * Updates the title of the window with how many dots are displayed
+     */
+    private void resetTitle() {
+        Main.stage.setTitle(Main.title + " | " + dots.size() + " dots");
     }
 }
