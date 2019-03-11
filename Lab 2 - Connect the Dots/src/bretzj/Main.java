@@ -22,10 +22,12 @@ public class Main extends Application {
      * Width of the window
      */
     public static final double WIDTH = 600;
+
     /**
      * Height of the window
      */
     public static final double HEIGHT = 600;
+
     /**
      * The window's stage
      */

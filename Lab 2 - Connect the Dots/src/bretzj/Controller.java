@@ -28,10 +28,20 @@ import static bretzj.Util.throwAlert;
  * JavaFX controller class
  */
 public class Controller {
+    /**
+     * The canvas
+     */
     @FXML
     private Canvas canvas;
 
+    /**
+     * Stores the original data from the opened file
+     */
     private Picture container = new Picture(new ArrayList<>());
+
+    /**
+     * Created using dots from `container` to manipulate the canvas
+     */
     private Picture picture;
 
     /**
@@ -124,7 +134,8 @@ public class Controller {
         try {
             number = (int) Double.parseDouble((String) result.get());
             if (number < 3) {
-                number = 3;
+                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Invalid Number", "Number must be greater than or equal to 3.").show();
+                number = container.getDots().size();
             }
         } catch (NumberFormatException ignored) {
             number = container.getDots().size();

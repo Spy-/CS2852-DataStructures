@@ -23,6 +23,9 @@ import java.util.Scanner;
  */
 public class Picture {
 
+    /**
+     * List of dot objects that are loaded from a file
+     */
     private List<Dot> dots;
 
     /**
