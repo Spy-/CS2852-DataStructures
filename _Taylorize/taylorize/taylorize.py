@@ -22,6 +22,9 @@ def zipDir(path, ziph):
                 file_path = os.path.join(root, file)
                 ziph.write(file_path, os.path.basename(file_path))
                 hadJar = True
+            elif file.endswith('.md') and not file.lower().count('readme'):
+                file_path = os.path.join(root, file)
+                ziph.write(file_path, os.path.basename(file_path))
 
     return hadJar
                 
@@ -32,18 +35,18 @@ def main():
         os.mkdir('_Submitals')
 
     projects = [i for i in next(os.walk('.'))[1] if i.lower().count('lab')>0]
-    missingJars = 0
+    properProject = len(projects)
 
     printProgressBar(0, len(projects), prefix = 'Progress:', suffix = 'Complete', length = 50)
 
     for i, project in enumerate(projects):
         zipf = zipfile.ZipFile(f"_Submitals/{project}.zip", 'w', zipfile.ZIP_DEFLATED)
         if not zipDir(project, zipf):
-            missingJars += 1
+            properProject -= 1
         zipf.close()
         printProgressBar(i + 1, len(projects), prefix = 'Progress:', suffix = 'Complete', length = 50)
 
-    print(f"{missingJars}/{len(projects)} projects are missing jars")
+    print(f"{properProject}/{len(projects)} projects were properly created")
 
 
 if __name__ == "__main__":
