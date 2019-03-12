@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bretzj.Controller">
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bretzj.Controller">
     <MenuBar prefWidth="25.0">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#open" text="Open"/>
-            <MenuItem mnemonicParsing="false" onAction="#save" text="Save"/>
-            <MenuItem mnemonicParsing="false" onAction="#close" text="Close"/>
+            <MenuItem mnemonicParsing="false" onAction="#open" text="Open" />
+            <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+         <MenuItem mnemonicParsing="false" onAction="#runTests" text="Run Tests" />
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
         </Menu>
         <Menu mnemonicParsing="false" text="Draw">
-            <MenuItem mnemonicParsing="false" onAction="#linesOnly" text="Lines Only"/>
-            <MenuItem mnemonicParsing="false" onAction="#dotsOnly" text="Dots Only"/>
-            <MenuItem mnemonicParsing="false" onAction="#removeDots" text="Remove Dots"/>
+            <MenuItem mnemonicParsing="false" onAction="#linesOnly" text="Lines Only" />
+            <MenuItem mnemonicParsing="false" onAction="#dotsOnly" text="Dots Only" />
+            <MenuItem mnemonicParsing="false" onAction="#removeDots" text="Remove Dots" />
+         <MenuItem mnemonicParsing="false" onAction="#removeDotsIterator" text="Remove Dots 2" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Options">
+            <CheckMenuItem mnemonicParsing="false" onAction="#useLinked" text="Use LinkedList" />
         </Menu>
     </MenuBar>
     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
-        <Canvas fx:id="canvas" height="575.0" width="600.0" HBox.hgrow="ALWAYS"/>
+        <Canvas fx:id="canvas" height="575.0" width="600.0" HBox.hgrow="ALWAYS" />
     </HBox>
 </VBox>
