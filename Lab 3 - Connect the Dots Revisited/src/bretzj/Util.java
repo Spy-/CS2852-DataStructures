@@ -10,6 +10,9 @@ package bretzj;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Dialog;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 /**
  * Utility class for helper methods
  */
@@ -55,5 +58,15 @@ public class Util {
      */
     public static void clearCanvas(Canvas canvas) {
         canvas.getGraphicsContext2D().clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+    }
+
+    /**
+     * Creates a new Picture with an ArrayList or a LinkedList
+     * @param container the original Picture
+     * @param useLinkedListInstead uses LinkedList if true else ArrayList
+     * @return the new Picture
+     */
+    public static Picture createPicture(Picture container, boolean useLinkedListInstead) {
+        return useLinkedListInstead ? new Picture(container, new LinkedList<>()) : new Picture(container, new ArrayList<>());
     }
 }
