@@ -9,6 +9,9 @@ package bretzj;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +19,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -48,6 +53,33 @@ public class Picture {
         emptyList.clear();
         emptyList.addAll(original.getDots());
         dots = emptyList;
+    }
+
+    /**
+     * Setup code for the removeDots methods
+     *
+     * @param container the container method
+     * @return a correct number
+     */
+    public static int removeDotsStart(Picture container) {
+        Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover",
+                "How many dots do you want to stay");
+        Optional result = dialog.showAndWait();
+
+        int number;
+        try {
+            number = (int) Double.parseDouble((String) result.get());
+            if (number < 3) {
+                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Invalid Number",
+                        "Number must be greater than or equal to 3.").show();
+                number = container.getDots().size();
+            }
+        } catch (NumberFormatException ignored) {
+            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Invalid Number",
+                    "Number must be greater than or equal to 3.").show();
+            number = container.getDots().size();
+        }
+        return number;
     }
 
     /**
@@ -131,33 +163,11 @@ public class Picture {
      *
      * @param numberDesired the number of dots to remain
      */
-    public void removeDots(int numberDesired) {
-        double lowestValue, criticalValue;
-        Dot toRemove, current, prev, next;
-
+    public void removeDots(int numberDesired, boolean useIterator) {
         while (dots.size() > numberDesired) {
-            toRemove = null;
-            lowestValue = Double.MAX_VALUE;
-
-            for (int i = 1; i < dots.size() - 1; i++) {
-                current = dots.get(i);
-                prev = dots.get(i - 1);
-                next = dots.get(i + 1);
-                criticalValue = current.calculateCriticalValue(prev, next);
-
-                if (criticalValue < lowestValue) {
-                    lowestValue = criticalValue;
-                    toRemove = current;
-                }
-            }
-
-            dots.remove(toRemove);
+            dots.remove(useIterator ? getLowestCriticalDot_i() : getLowestCriticalDot());
         }
         resetTitle();
-    }
-
-    public List<Dot> getDots() {
-        return dots;
     }
 
     /**
@@ -165,5 +175,63 @@ public class Picture {
      */
     private void resetTitle() {
         Main.stage.setTitle(Main.title + " | " + dots.size() + " dots");
+    }
+
+    /**
+     * gets the dot with the lowest critical value using index based methods
+     * @return the dot
+     */
+    private Dot getLowestCriticalDot() {
+        double lowestValue = Double.MAX_VALUE, criticalValue;
+        Dot toRemove = null, current, prev, next;
+
+        for (int i = 1; i < dots.size() - 1; i++) {
+            current = dots.get(i);
+            prev = dots.get(i - 1);
+            next = dots.get(i + 1);
+            criticalValue = current.calculateCriticalValue(prev, next);
+
+            if (criticalValue < lowestValue) {
+                lowestValue = criticalValue;
+                toRemove = current;
+            }
+        }
+        return toRemove;
+    }
+
+    /**
+     * gets the dot with the lowest critical value using an iterator
+     * @return the dot
+     */
+    private Dot getLowestCriticalDot_i() {
+        ListIterator itr = dots.listIterator();
+        double lowestValue = Double.MAX_VALUE, criticalValue;
+        Dot toRemove = null, prev = (Dot) itr.next(), current = (Dot) itr.next(), next = (Dot) itr.next();
+
+        criticalValue = current.calculateCriticalValue(prev, next);
+
+        if (criticalValue < lowestValue) {
+            lowestValue = criticalValue;
+            toRemove = current;
+        }
+
+        while (itr.hasNext()) {
+            prev = current;
+            current = next;
+            next = (Dot) itr.next();
+
+            criticalValue = current.calculateCriticalValue(prev, next);
+
+            if (criticalValue < lowestValue) {
+                lowestValue = criticalValue;
+                toRemove = current;
+            }
+        }
+
+        return toRemove;
+    }
+
+    public List<Dot> getDots() {
+        return dots;
     }
 }
