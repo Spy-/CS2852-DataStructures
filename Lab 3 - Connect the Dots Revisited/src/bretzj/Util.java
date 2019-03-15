@@ -12,6 +12,7 @@ import javafx.scene.control.Dialog;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Utility class for helper methods

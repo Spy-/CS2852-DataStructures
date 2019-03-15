@@ -18,10 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class that handles reading dot files and rendering the information to the screen
