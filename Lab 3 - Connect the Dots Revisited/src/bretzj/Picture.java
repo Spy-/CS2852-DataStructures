@@ -98,7 +98,6 @@ public class Picture {
                     dots.add(new Dot(x, y));
                 }
             }
-            resetTitle();
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             throw new IOException("Corrupted File");
         }
@@ -128,11 +127,11 @@ public class Picture {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         final double size = 7;
 
-        if (dots.size() > 0) {
-            for (Dot d : dots) {
-                gc.fillOval(d.getX() - size / 2, d.getY() - size / 2, size, size);
-            }
+        for (Dot d : dots) {
+            gc.fillOval(d.getX() - size / 2, d.getY() - size / 2, size, size);
         }
+
+        resetTitle();
     }
 
     /**
@@ -164,7 +163,6 @@ public class Picture {
         while (dots.size() > numberDesired) {
             dots.remove(useIterator ? getLowestCriticalDot_i() : getLowestCriticalDot());
         }
-        resetTitle();
     }
 
     /**
