@@ -63,7 +63,8 @@ public class Util {
 
     /**
      * Creates a new Picture with an ArrayList or a LinkedList
-     * @param container the original Picture
+     *
+     * @param container            the original Picture
      * @param useLinkedListInstead uses LinkedList if true else ArrayList
      * @return the new Picture
      */

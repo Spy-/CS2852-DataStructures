@@ -31,10 +31,12 @@ public class Main extends Application {
     /**
      * The window's stage
      */
-    public static Stage stage;
+    static Stage stage;
 
-    /** Base title of the stage */
-    public static String title = "Lab 1 - Dot Generator";
+    /**
+     * Base title of the stage
+     */
+    static final String title = "Lab 3 - Connect the Dots Revisited";
 
     /**
      * JavaFX entry point

@@ -176,6 +176,7 @@ public class Picture {
 
     /**
      * gets the dot with the lowest critical value using index based methods
+     *
      * @return the dot
      */
     private Dot getLowestCriticalDot() {
@@ -198,6 +199,7 @@ public class Picture {
 
     /**
      * gets the dot with the lowest critical value using an iterator
+     *
      * @return the dot
      */
     private Dot getLowestCriticalDot_i() {
