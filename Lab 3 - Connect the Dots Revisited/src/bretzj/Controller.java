@@ -1,7 +1,7 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 2 - Connect the Dots
+ * Lab 3 - Connect the Dots Revisited
  * Name: John Bretz
  * Created: 3/8/2019
  */
