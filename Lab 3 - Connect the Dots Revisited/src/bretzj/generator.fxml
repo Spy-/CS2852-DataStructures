@@ -16,7 +16,7 @@
          <MenuItem mnemonicParsing="false" onAction="#runTests" text="Run Tests" />
             <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Draw">
+        <Menu fx:id="drawMenu" disable="true" mnemonicParsing="false" text="Draw">
             <MenuItem mnemonicParsing="false" onAction="#linesOnly" text="Lines Only" />
             <MenuItem mnemonicParsing="false" onAction="#dotsOnly" text="Dots Only" />
             <MenuItem mnemonicParsing="false" onAction="#removeDots" text="Remove Dots" />

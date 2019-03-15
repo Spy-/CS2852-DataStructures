@@ -27,6 +27,12 @@ import static bretzj.Util.throwAlert;
  */
 public class Controller {
     /**
+     * The draw menu
+     */
+    @FXML
+    private Menu drawMenu;
+
+    /**
      * The canvas
      */
     @FXML
@@ -83,19 +89,21 @@ public class Controller {
 
         File selectedFile = fc.showOpenDialog(Main.stage);
 
-        try {
-            container.load(selectedFile.toPath());
-            picture = new Picture(container, new ArrayList<>());
-            clearCanvas(canvas);
-            picture.drawDots(canvas);
-            picture.drawLines(canvas);
-        } catch (FileNotFoundException e) {
-            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
-                    "The file does not exist.").show();
-        } catch (IOException e) {
-            Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
-                    "Encountered an error while reading the file").show();
-        } catch (NullPointerException ignored) {
+        if (selectedFile != null) {
+            try {
+                container.load(selectedFile.toPath());
+                picture = new Picture(container, new ArrayList<>());
+                clearCanvas(canvas);
+                picture.drawDots(canvas);
+                picture.drawLines(canvas);
+                drawMenu.setDisable(false);
+            } catch (FileNotFoundException e) {
+                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
+                        "The file does not exist.").show();
+            } catch (IOException e) {
+                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
+                        "Encountered an error while reading the file").show();
+            }
         }
     }
 
@@ -162,10 +170,11 @@ public class Controller {
     @FXML
     void initialize() {
         try {
-            container.load(new File("balloon.dot").toPath());
+            container.load(new File("test.dot").toPath());
             picture = new Picture(container, new ArrayList<>());
             picture.drawLines(canvas);
             picture.drawDots(canvas);
+            drawMenu.setDisable(false);
         } catch (IOException ignored) {
         }
     }
