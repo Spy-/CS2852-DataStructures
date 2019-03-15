@@ -229,6 +229,6 @@ public class Picture {
     }
 
     public List<Dot> getDots() {
-        return dots;
+        return new ArrayList<>(dots);
     }
 }
