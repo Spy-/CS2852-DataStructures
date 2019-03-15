@@ -47,9 +47,8 @@ public class Picture {
      * @param emptyList a list to store the dots
      */
     public Picture(Picture original, List<Dot> emptyList) {
-        emptyList.clear();
+        this(emptyList);
         emptyList.addAll(original.getDots());
-        dots = emptyList;
     }
 
     /**
