@@ -109,12 +109,11 @@ public class Picture {
      * @throws FileNotFoundException if the file doesn't exist
      */
     public void saveDotFile(File file) throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(file);
-
-        for (Dot d : dots) {
-            pw.println(d.getX() / Main.WIDTH + "," + (1.0 - (d.getY() / Main.HEIGHT)));
+        try (PrintWriter pw = new PrintWriter(file)) {
+            for (Dot d : dots) {
+                pw.println(d.getX() / Main.WIDTH + "," + (1.0 - (d.getY() / Main.HEIGHT)));
+            }
         }
-        pw.close();
     }
 
     /**
