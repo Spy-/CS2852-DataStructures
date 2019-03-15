@@ -10,4 +10,11 @@
 
 ## Time Analysis
 
-//TODO
+* `removeDots()` when using **ArrayList** with **n-1** desired dots
+   * $O(n^2)$: `removeDots()` is a for loop nested in a while loop.
+* `removeDots()` when using **ArrayList** with **3** desired dots
+   * $O(n)$: Some Reasoning
+* `removeDots()` when using **LinkedList** with **n−1** desired dots
+   * $O(n)$: Some Reasoning
+* `removeDots()` when using **LinkedList** with **3** desired dots
+   * $O(n)$: Some Reasoning
