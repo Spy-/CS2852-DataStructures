@@ -89,7 +89,7 @@ public class Picture {
      * @throws IOException if the file isn't there
      */
     public void load(Path path) throws IOException {
-        try (Scanner scan = new Scanner(path.getFileName())) {
+        try (Scanner scan = new Scanner(path.toFile())) {
             dots.clear();
             double x, y;
             while (scan.hasNextLine()) {
