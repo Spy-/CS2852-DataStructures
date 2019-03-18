@@ -102,7 +102,8 @@ public class Controller {
                 Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "File not found",
                         "The file does not exist.").show();
             } catch (IOException e) {
-                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error", "Error while reading file",
+                Util.throwAlert(new Alert(Alert.AlertType.ERROR), "Error",
+                        "Error while reading file",
                         "Encountered an error while reading the file").show();
             }
         }
@@ -137,7 +138,7 @@ public class Controller {
     void removeDots() {
         picture = Util.createPicture(container, useLinkedListInstead);
 
-        picture.removeDots(Picture.removeDotsStart(container), false);
+        picture.removeDots(Picture.sendRemoveDotsDialog(container), false);
         clearCanvas(canvas);
         picture.drawDots(canvas);
         picture.drawLines(canvas);
@@ -150,7 +151,7 @@ public class Controller {
     void removeDotsIterator() {
         picture = Util.createPicture(container, useLinkedListInstead);
 
-        picture.removeDots(Picture.removeDotsStart(container), true);
+        picture.removeDots(Picture.sendRemoveDotsDialog(container), true);
         clearCanvas(canvas);
         picture.drawDots(canvas);
         picture.drawLines(canvas);
@@ -182,7 +183,7 @@ public class Controller {
 
     private void testPicture(Picture p, int dots, String name) {
         long start, end;
-        StringBuilder output = new StringBuilder();
+        String output = "";
         Picture[] tests = {
                 new Picture(p, new ArrayList<>()),
                 new Picture(p, new LinkedList<>()),
@@ -201,33 +202,37 @@ public class Controller {
 
             switch (i) {
                 case 0:
-                    output.append("\tIndexed ArrayList:   ").append(formatTime(end - start)).append("\n");
+                    output += "\tIndexed ArrayList:   " + formatTime(end - start) + "\n";
                     break;
                 case 1:
-                    output.append("\tIndexed LinkedList:  ").append(formatTime(end - start)).append("\n");
+                    output += "\tIndexed LinkedList:  " + formatTime(end - start) + "\n";
                     break;
                 case 2:
-                    output.append("\tIterated ArrayList:  ").append(formatTime(end - start)).append("\n");
+                    output += "\tIterated ArrayList:  " + formatTime(end - start) + "\n";
                     break;
                 case 3:
-                    output.append("\tIterated LinkedList: ").append(formatTime(end - start)).append("\n");
+                    output += "\tIterated LinkedList: " + formatTime(end - start) + "\n";
                     break;
             }
         }
-        throwAlert(new Alert(Alert.AlertType.INFORMATION), "Test Result", name, output.toString()).showAndWait();
+        throwAlert(new Alert(Alert.AlertType.INFORMATION), "Test Result",
+                name, output).showAndWait();
     }
 
     private String formatTime(long millis) {
-        long remain = millis % 1000;
-        millis = (millis - remain) / 1000;
-        long seconds = millis % 60;
-        millis = (millis - seconds) / 60;
-        long minutes = millis % 60;
-        long hours = (millis - minutes) / 60;
+        final long second = 1000, minute = 60;
+
+        long remain = millis % second;
+        millis = (millis - remain) / second;
+        long seconds = millis % minute;
+        millis = (millis - seconds) / minute;
+        long minutes = millis % minute;
+        long hours = (millis - minutes) / minute;
         return String.format("%02d:%02d:%02d:%03d", hours, minutes, seconds, remain);
     }
 
     public void runTests() throws IOException {
+        final int hundred = 100, thousand = 1000, nthousand = 9000;
         Picture balloon100 = new Picture(new ArrayList<>());
         Picture balloon1000 = new Picture(new ArrayList<>());
         Picture skull = new Picture(new ArrayList<>());
@@ -236,8 +241,8 @@ public class Controller {
         balloon1000.load(new File("balloon.dot").toPath());
         skull.load(new File("skull.dot").toPath());
 
-        testPicture(balloon100, 100, "Balloon100");
-        testPicture(balloon100, 1000, "Balloon1000");
-        testPicture(skull, 9000, "Skull9000");
+        testPicture(balloon100, hundred, "Balloon100");
+        testPicture(balloon100, thousand, "Balloon1000");
+        testPicture(skull, nthousand, "Skull9000");
     }
 }

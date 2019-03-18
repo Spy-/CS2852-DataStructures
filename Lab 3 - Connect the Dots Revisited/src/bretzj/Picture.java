@@ -18,7 +18,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * Class that handles reading dot files and rendering the information to the screen
@@ -57,7 +61,7 @@ public class Picture {
      * @param container the container method
      * @return a correct number
      */
-    public static int removeDotsStart(Picture container) {
+    public static int sendRemoveDotsDialog(Picture container) {
         Dialog dialog = Util.throwAlert(new TextInputDialog(""), "Dot Remover", "Dot Remover",
                 "How many dots do you want to stay");
         Optional result = dialog.showAndWait();
@@ -164,10 +168,10 @@ public class Picture {
     }
 
     /**
-     * Updates the title of the window with how many dots are displayed
+     * Updates the TITLE of the window with how many dots are displayed
      */
     private void resetTitle() {
-        Main.stage.setTitle(Main.title + " | " + dots.size() + " dots");
+        Main.stage.setTitle(Main.TITLE + " | " + dots.size() + " dots");
     }
 
     /**
@@ -199,9 +203,10 @@ public class Picture {
      * @return the dot
      */
     private Dot getLowestCriticalDot_i() {
-        ListIterator itr = dots.listIterator();
+        Iterator itr = dots.iterator();
         double lowestValue = Double.MAX_VALUE, criticalValue;
-        Dot toRemove = null, prev = (Dot) itr.next(), current = (Dot) itr.next(), next = (Dot) itr.next();
+        Dot toRemove = null;
+        Dot prev = (Dot) itr.next(), current = (Dot) itr.next(), next = (Dot) itr.next();
 
         criticalValue = current.calculateCriticalValue(prev, next);
 

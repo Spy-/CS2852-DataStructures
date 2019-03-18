@@ -34,9 +34,9 @@ public class Main extends Application {
     static Stage stage;
 
     /**
-     * Base title of the stage
+     * Base TITLE of the stage
      */
-    static final String title = "Lab 3 - Connect the Dots Revisited";
+    static final String TITLE = "Lab 3 - Connect the Dots Revisited";
 
     /**
      * JavaFX entry point
@@ -49,7 +49,7 @@ public class Main extends Application {
         stage = primaryStage;
 
         Parent root = FXMLLoader.load(getClass().getResource("generator.fxml"));
-        primaryStage.setTitle(Main.title);
+        primaryStage.setTitle(Main.TITLE);
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.setResizable(false);
         primaryStage.show();

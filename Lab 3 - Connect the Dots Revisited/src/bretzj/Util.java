@@ -12,7 +12,6 @@ import javafx.scene.control.Dialog;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Utility class for helper methods
@@ -23,7 +22,7 @@ public class Util {
      * Creates a dialog
      *
      * @param type    a dialog
-     * @param title   the dialog's title
+     * @param title   the dialog's TITLE
      * @param header  the header text
      * @param content the content text
      * @return the created dialog
@@ -69,6 +68,8 @@ public class Util {
      * @return the new Picture
      */
     public static Picture createPicture(Picture container, boolean useLinkedListInstead) {
-        return useLinkedListInstead ? new Picture(container, new LinkedList<>()) : new Picture(container, new ArrayList<>());
+        LinkedList<Dot> link = new LinkedList<>();
+        ArrayList<Dot> array = new ArrayList<>();
+        return useLinkedListInstead ? new Picture(container, link) : new Picture(container, array);
     }
 }
