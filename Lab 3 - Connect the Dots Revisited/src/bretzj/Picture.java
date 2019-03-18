@@ -160,10 +160,11 @@ public class Picture {
      * Removes dots until a certain amount of dots are left
      *
      * @param numberDesired the number of dots to remain
+     * @param useIterator   true if an Iterator should be used
      */
     public void removeDots(int numberDesired, boolean useIterator) {
         while (dots.size() > numberDesired) {
-            dots.remove(useIterator ? getLowestCriticalDot_i() : getLowestCriticalDot());
+            dots.remove(useIterator ? getLowestCriticalDotIterator() : getLowestCriticalDot());
         }
     }
 
@@ -202,7 +203,7 @@ public class Picture {
      *
      * @return the dot
      */
-    private Dot getLowestCriticalDot_i() {
+    private Dot getLowestCriticalDotIterator() {
         Iterator itr = dots.iterator();
         double lowestValue = Double.MAX_VALUE, criticalValue;
         Dot toRemove = null;

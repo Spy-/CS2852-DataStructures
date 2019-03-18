@@ -181,6 +181,13 @@ public class Controller {
         }
     }
 
+    /**
+     * Tests a given Picture
+     *
+     * @param p    the picture object
+     * @param dots the number of dots to remain
+     * @param name the name of the picture
+     */
     private void testPicture(Picture p, int dots, String name) {
         long start, end;
         String output = "";
@@ -219,6 +226,12 @@ public class Controller {
                 name, output).showAndWait();
     }
 
+    /**
+     * Formats the time into a readable format
+     *
+     * @param millis the number of millis
+     * @return a readable format
+     */
     private String formatTime(long millis) {
         final long second = 1000, minute = 60;
 
@@ -231,7 +244,12 @@ public class Controller {
         return String.format("%02d:%02d:%02d:%03d", hours, minutes, seconds, remain);
     }
 
-    public void runTests() throws IOException {
+    /**
+     * Runs all the tests
+     * @throws IOException if the files don't exist
+     */
+    @FXML
+    void runTests() throws IOException {
         final int hundred = 100, thousand = 1000, nthousand = 9000;
         Picture balloon100 = new Picture(new ArrayList<>());
         Picture balloon1000 = new Picture(new ArrayList<>());
