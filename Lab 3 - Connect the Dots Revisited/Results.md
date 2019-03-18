@@ -11,10 +11,10 @@
 ## Time Analysis
 
 * `removeDots()` when using **ArrayList** with **n-1** desired dots
-   * $O(n^2)$: `removeDots()` is a for loop nested in a while loop.
+   * O(n): `removeDots()` is a for loop nested in a while loop, but since the contents of the while loop only execute once so practically it doesn't exist.
 * `removeDots()` when using **ArrayList** with **3** desired dots
-   * $O(n)$: Some Reasoning
+   * O(n^2): `removeDots()` is a for loop inside a while loop. The code inside the for loop will execute (n-3)^2 times making the time complexity n^2.
 * `removeDots()` when using **LinkedList** with **n−1** desired dots
-   * $O(n)$: Some Reasoning
+   * O(n^2): Same reasoning as the ArrayList version but since LinkedList's search functionality requires linear time the time complexity will be n^2 rather than just n.
 * `removeDots()` when using **LinkedList** with **3** desired dots
-   * $O(n)$: Some Reasoning
+   * O(n^2): Same reasoning as the ArrayList version
