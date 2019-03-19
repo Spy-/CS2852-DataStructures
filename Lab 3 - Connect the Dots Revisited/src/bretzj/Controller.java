@@ -17,7 +17,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -223,8 +222,7 @@ public class Controller {
                     break;
             }
         }
-        throwAlert(new Alert(Alert.AlertType.INFORMATION), "Test Result",
-                name, output).showAndWait();
+        System.out.println(name + "\n" + output);
     }
 
     /**
