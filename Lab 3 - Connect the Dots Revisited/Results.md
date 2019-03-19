@@ -1,20 +1,46 @@
-# Lab 3 - Connect the Dots Revisited
+# Benchmark Results
 
-## Benchmarking
+## Time for [balloon.dot](http://msoe.us/taylor/cs2852/balloon.dot) with **100* desired dots
 
-| Picture | dots | Indexed ArrayList | Indexed LinkedList | Iterated ArrayList | Iterated LinkedList |
-|---------|------|-------------------|--------------------|--------------------|---------------------|
-| Balloon | 100  | 00:00:00:110      | 00:00:32:523       | 00:00:00:080       | 00:00:00:118        |
-| Balloon | 1000 | 00:00:00:141      | 00:00:32:663       | 00:00:00:118       | 00:00:00:090        |
-| Skull   | 9000 | 00:00:00:158      | 00:02:23:101       | 00:00:00:093       | 00:00:00:118        |
+```
+Indexed ArrayList:   00:00:00:146
+Indexed LinkedList:  00:00:48:398
+Iterated ArrayList:  00:00:00:131
+Iterated LinkedList: 00:00:00:208
+```
 
-## Time Analysis
+## Time for [balloon.dot](http://msoe.us/taylor/cs2852/balloon.dot) with **1000* desired dots
 
-* `removeDots()` when using **ArrayList** with **n-1** desired dots
-   * O(n): `removeDots()` is a for loop nested in a while loop, but since the contents of the while loop only execute once so practically it doesn't exist.
-* `removeDots()` when using **ArrayList** with **3** desired dots
-   * O(n^2): `removeDots()` is a for loop inside a while loop. The code inside the for loop will execute (n-3)^2 times making the time complexity n^2.
-* `removeDots()` when using **LinkedList** with **n−1** desired dots
-   * O(n^2): Same reasoning as the ArrayList version but since LinkedList's search functionality requires linear time the time complexity will be n^2 rather than just n.
-* `removeDots()` when using **LinkedList** with **3** desired dots
-   * O(n^2): Same reasoning as the ArrayList version
+```
+Indexed ArrayList:   00:00:00:173
+Indexed LinkedList:  00:00:47:823
+Iterated ArrayList:  00:00:00:172
+Iterated LinkedList: 00:00:00:126
+```
+
+## Time for [skull.dot](http://msoe.us/taylor/cs2852/skull.dot) with **9000* desired dots
+
+```
+Indexed ArrayList:   00:00:00:218
+Indexed LinkedList:  00:05:04:035
+Iterated ArrayList:  00:00:00:241
+Iterated LinkedList: 00:00:00:459
+```
+
+# Asymptotic Time Complexity Analysis for `removeDots()`
+
+## O( n ) &mdash; when using `ArrayList` with **n-1** desired dots
+
+Justification: `removeDots()` is a for loop nested in a while loop, but since the contents of the while loop only execute once so practically it doesn't exist.
+
+## O( n^2 ) &mdash; when using `ArrayList` with **3** desired dots
+
+Justification: `removeDots()` is a for loop inside a while loop. The code inside the for loop will execute (n-3)^2 times making the time complexity n^2.
+
+## O( n^2 ) &mdash; when using `LinkedList` with **n-1** desired dots
+
+Justification: Same reasoning as the ArrayList version but since LinkedList's search functionality requires linear time the time complexity will be n^2 rather than just n.
+
+## O( n^2 ) &mdash; when using `LinkedList` with **3** desired dots
+
+Justification: Same reasoning as the ArrayList version
