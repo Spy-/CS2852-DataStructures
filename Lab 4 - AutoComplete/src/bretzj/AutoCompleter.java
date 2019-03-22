@@ -27,7 +27,18 @@ public class AutoCompleter {
     }
 
     private void loadCSVFile(Scanner scan) {
-        System.out.println("CSV TODO");
+        stack.clear();
+        ArrayList<String> words = new ArrayList<>();
+        String[] part;
+
+        while (scan.hasNextLine()) {
+            part = scan.nextLine().split(",");
+            words.add(part[1] + ": " + part[0]);
+        }
+        dictionaryLoaded = true;
+        stack.push(words);
+
+        System.out.println("Loaded " + words.size() + " elements.");
     }
 
     private void loadTextFile(Scanner scan) {
