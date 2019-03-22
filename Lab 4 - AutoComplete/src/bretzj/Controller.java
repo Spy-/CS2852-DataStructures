@@ -101,7 +101,7 @@ public class Controller {
         inject(Main.stage);
         ac = new AutoCompleter(new ArrayList<>());
         try {
-            ac.initialize("2000words.txt");
+            ac.initialize("words.txt");
         } catch (FileNotFoundException ignored) {
         }
     }
