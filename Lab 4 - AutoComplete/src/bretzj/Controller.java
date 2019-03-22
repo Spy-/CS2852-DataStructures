@@ -31,6 +31,7 @@ public class Controller {
     private Stage stage;
     private AutoCompleter ac;
     private Strategy strategy = Strategy.ARRAYLIST_ENHANCED;
+    private String previousSearch = "";
 
     @FXML
     void arrayListEnhanced() {
@@ -78,21 +79,25 @@ public class Controller {
 
     @FXML
     void searchUpdate(KeyEvent event) {
-        if (!search.getText().equalsIgnoreCase("")) {
-            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(), strategy);
+        if (abs(previousSearch.length() - search.getText().length()) <= 1) {
+            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(), strategy, event.getCharacter().equals("\b"));
 
             String output = "";
             for (String s : strings) {
                 output += s + "\n";
             }
 
+            previousSearch = search.getText();
             Matches.setText(output);
             matchesCount.setText("Matches Found: " + strings.size());
-            time.setText("Time Required: " + formatTime());
+            time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
         } else {
+            search.setText("");
             Matches.setText("");
             matchesCount.setText("Matches Found: 0");
-            time.setText("Time Required: 00:00.000");
+            time.setText("Time Required: 0 nanoseconds");
+            previousSearch = "";
+            ac.flush();
         }
     }
 
