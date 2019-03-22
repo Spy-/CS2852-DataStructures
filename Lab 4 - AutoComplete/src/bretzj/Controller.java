@@ -104,7 +104,7 @@ public class Controller {
         inject(Main.stage);
         ac = new AutoCompleter(new ArrayList<>());
         try {
-            ac.load(new File("words.txt"));
+            ac.load(new File("2000words.txt"));
         } catch (FileNotFoundException ignored) {
         }
     }
@@ -114,6 +114,18 @@ public class Controller {
     }
 
     private String formatTime(long nanos) {
-        return "TODO";
+        // less then us -> show nanos
+        // less then ms -> show micro
+        // less then s  -> show ms
+        // else         -> 00:00.000
+
+        if (nanos < 1000) {
+            return nanos + " nanoseconds";
+        } else if (nanos < 1000000) {
+            return roundDecimal(nanos / 1000.0) + " microseconds";
+        } else if (nanos < 1000000000) {
+            return roundDecimal(nanos / 1000000.0) + " milliseconds";
+        }
+        return "XX:XX.xxx";
     }
 }

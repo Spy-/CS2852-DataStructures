@@ -30,4 +30,8 @@ public class Util {
 
         return type;
     }
+
+    public static double roundDecimal(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
 }
