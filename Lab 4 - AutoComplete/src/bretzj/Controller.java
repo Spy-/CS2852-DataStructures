@@ -1,9 +1,7 @@
 package bretzj;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -16,6 +14,9 @@ import static bretzj.Util.formatTime;
 import static java.lang.Math.abs;
 
 public class Controller {
+    @FXML
+    private ToggleGroup strat;
+
     @FXML
     private TextField search;
 

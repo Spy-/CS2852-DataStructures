@@ -7,6 +7,7 @@
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,10 +18,14 @@
             <MenuItem mnemonicParsing="false" onAction="#open" text="Open"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Strategy">
-            <RadioMenuItem mnemonicParsing="false" onAction="#arrayListIndex" text="ArrayList Index"/>
-            <RadioMenuItem mnemonicParsing="false" onAction="#linkedListIndex" text="LinkedList Index"/>
-            <RadioMenuItem mnemonicParsing="false" onAction="#arrayListEnhanced" text="ArrayList Enhanced"/>
-            <RadioMenuItem mnemonicParsing="false" onAction="#linkedListEnhanced" text="LinkedList Enhanced"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#arrayListIndex" text="ArrayList Index">
+                <toggleGroup>
+                    <ToggleGroup fx:id="strat"/>
+                </toggleGroup>
+            </RadioMenuItem>
+            <RadioMenuItem mnemonicParsing="false" onAction="#linkedListIndex" text="LinkedList Index" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#arrayListEnhanced" selected="true" text="ArrayList Enhanced" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#linkedListEnhanced" text="LinkedList Enhanced" toggleGroup="$strat"/>
         </Menu>
     </MenuBar>
     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
