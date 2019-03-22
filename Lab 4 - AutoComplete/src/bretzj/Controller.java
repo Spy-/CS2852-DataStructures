@@ -1,6 +1,5 @@
 package bretzj;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -13,7 +12,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import static bretzj.Util.roundDecimal;
+import static bretzj.Util.formatTime;
+import static java.lang.Math.abs;
 
 public class Controller {
     @FXML
