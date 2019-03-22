@@ -9,16 +9,15 @@ import java.util.Scanner;
 
 public class AutoCompleter {
 
-    private ArrayList<String> array;
-    private LinkedList<String> linked;
+    private ArrayList<String> words;
+    private long start, end;
 
     public AutoCompleter(List<String> list) {
-        this.array = new ArrayList<>(list);
-        this.linked = new LinkedList<>(list);
+        this.words = new ArrayList<>(list);
     }
 
-    public void load(File file) throws FileNotFoundException {
-        String fileName = file.toString().toLowerCase();
+    public void initialize(String fileName) throws FileNotFoundException {
+        File file = new File(fileName);
 
         try (Scanner fileScan = new Scanner(file)) {
             if (fileName.endsWith(".txt")) {
@@ -34,21 +33,21 @@ public class AutoCompleter {
     }
 
     private void loadTextFile(Scanner scan) {
-        array.clear();
-        linked.clear();
+        words.clear();
         String word;
 
         while (scan.hasNextLine()) {
-            word = scan.nextLine();
-            array.add(word);
-            linked.add(word);
+            words.add(scan.nextLine());
         }
-        System.out.println("Loaded " + array.size() + " elements.");
+        System.out.println("Loaded " + words.size() + " elements.");
     }
 
-    public ArrayList<String> search(String text, Strategy strategy) {
+    public ArrayList<String> allThatBeginsWith(String text, Strategy strategy) {
         ArrayList<String> strings = new ArrayList<>();
+        ArrayList<String> array = new ArrayList<>(words);
+        LinkedList<String> linked = new LinkedList<>(words);
 
+        start = System.nanoTime();
         switch (strategy) {
             case ARRAYLIST_INDEX:
                 System.out.println("Using " + strategy + " to find " + text);
@@ -85,6 +84,11 @@ public class AutoCompleter {
                 }
                 break;
         }
+        end = System.nanoTime();
         return strings;
+    }
+
+    public long getLastOperationTime() {
+        return end - start;
     }
 }

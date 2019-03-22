@@ -69,7 +69,7 @@ public class Controller {
 
         if (selectedFile != null) {
             try {
-                ac.load(selectedFile);
+                ac.initialize(selectedFile.toString());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -78,11 +78,8 @@ public class Controller {
 
     @FXML
     void searchUpdate(KeyEvent event) {
-        long start, end;
         if (!search.getText().equalsIgnoreCase("")) {
-            start = System.nanoTime();
-            ArrayList<String> strings = ac.search(search.getText(), strategy);
-            end = System.nanoTime();
+            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(), strategy);
 
             String output = "";
             for (String s : strings) {
@@ -91,7 +88,7 @@ public class Controller {
 
             Matches.setText(output);
             matchesCount.setText("Matches Found: " + strings.size());
-            time.setText("Time Required: " + formatTime(end - start));
+            time.setText("Time Required: " + formatTime());
         } else {
             Matches.setText("");
             matchesCount.setText("Matches Found: 0");
@@ -104,7 +101,7 @@ public class Controller {
         inject(Main.stage);
         ac = new AutoCompleter(new ArrayList<>());
         try {
-            ac.load(new File("2000words.txt"));
+            ac.initialize("2000words.txt");
         } catch (FileNotFoundException ignored) {
         }
     }
@@ -113,11 +110,13 @@ public class Controller {
         this.stage = stage;
     }
 
-    private String formatTime(long nanos) {
+    private String formatTime() {
         // less then us -> show nanos
         // less then ms -> show micro
         // less then s  -> show ms
         // else         -> 00:00.000
+
+        long nanos = ac.getLastOperationTime();
 
         if (nanos < 1000) {
             return nanos + " nanoseconds";
