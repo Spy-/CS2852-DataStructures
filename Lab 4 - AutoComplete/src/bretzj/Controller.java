@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import static bretzj.Util.roundDecimal;
+
 public class Controller {
     @FXML
     private TextField search;

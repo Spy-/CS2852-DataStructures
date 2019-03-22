@@ -51,6 +51,7 @@ public class AutoCompleter {
 
         switch (strategy) {
             case ARRAYLIST_INDEX:
+                System.out.println("Using " + strategy + " to find " + text);
                 for (int i = 0; i < array.size(); i++) {
                     String word = array.get(i);
                     if (word.startsWith(text)) {
@@ -59,6 +60,7 @@ public class AutoCompleter {
                 }
                 break;
             case LINKEDLIST_INDEX:
+                System.out.println("Using " + strategy + " to find " + text);
                 for (int i = 0; i < linked.size(); i++) {
                     String word = linked.get(i);
                     if (word.startsWith(text)) {
@@ -67,6 +69,7 @@ public class AutoCompleter {
                 }
                 break;
             case ARRAYLIST_ENHANCED:
+                System.out.println("Using " + strategy + " to find " + text);
                 for (String s : array) {
                     if (s.startsWith(text)) {
                         strings.add(s);
@@ -74,6 +77,7 @@ public class AutoCompleter {
                 }
                 break;
             case LINKEDLIST_ENHANCED:
+                System.out.println("Using " + strategy + " to find " + text);
                 for (String s : linked) {
                     if (s.startsWith(text)) {
                         strings.add(s);
