@@ -10,10 +10,7 @@ package bretzj;
 import javafx.scene.control.Dialog;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-
-import static java.lang.String.format;
 
 /**
  * Utility class for helper methods
@@ -37,20 +34,36 @@ public class Util {
         return type;
     }
 
+    /**
+     * Rounds a number to two decimal places
+     *
+     * @param value the number
+     * @return the number rounded
+     */
     public static double roundDecimal(double value) {
-        return Math.round(value * 100.0) / 100.0;
+        final double modifier = 100.0;
+        return Math.round(value * modifier) / modifier;
     }
 
+    /**
+     * Turns the nanoTime into a readable format
+     *
+     * @param nanos the number of nanoseconds
+     * @return a readable format
+     */
     public static String formatTime(long nanos) {
+        final float micro = 1000;
+        final float milli = 1000000;
+        final float secon = 1000000000;
 
-        if (nanos < 1000) {
+        if (nanos < micro) {
             return nanos + " nanoseconds";
-        } else if (nanos < 1_000_000) {
-            return roundDecimal(nanos / 1000.0) + " microseconds";
-        } else if (nanos < 1_000_000_000) {
-            return roundDecimal(nanos / 1.0E06) + " milliseconds";
+        } else if (nanos < milli) {
+            return roundDecimal(nanos / micro) + " microseconds";
+        } else if (nanos < secon) {
+            return roundDecimal(nanos / milli) + " milliseconds";
         }
 
-        return new SimpleDateFormat("mm:ss.SSS").format(new Date(nanos / 1_000_000));
+        return new SimpleDateFormat("mm:ss.SSS").format(new Date((long) (nanos / milli)));
     }
 }

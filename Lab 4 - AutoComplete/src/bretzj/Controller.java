@@ -1,7 +1,17 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 4 - AutoComplete
+ * Name: John Bretz
+ * Created: 3/22/2019
+ */
 package bretzj;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -13,6 +23,9 @@ import java.util.ArrayList;
 import static bretzj.Util.formatTime;
 import static java.lang.Math.abs;
 
+/**
+ * class for the JavaFx Controller
+ */
 public class Controller {
     @FXML
     private ToggleGroup strat;
@@ -21,7 +34,7 @@ public class Controller {
     private TextField search;
 
     @FXML
-    private TextArea Matches;
+    private TextArea matches;
 
     @FXML
     private Label time;
@@ -34,26 +47,41 @@ public class Controller {
     private Strategy strategy = Strategy.ARRAYLIST_ENHANCED;
     private String previousSearch = "";
 
+    /**
+     * use ArrayList & enhanced for loop for search
+     */
     @FXML
     void arrayListEnhanced() {
         strategy = Strategy.ARRAYLIST_ENHANCED;
     }
 
+    /**
+     * use ArrayList & iteration loop for search
+     */
     @FXML
     void arrayListIndex() {
         strategy = Strategy.ARRAYLIST_INDEX;
     }
 
+    /**
+     * use LinkedList & enhanced for loop for search
+     */
     @FXML
     void linkedListEnhanced() {
         strategy = Strategy.LINKEDLIST_ENHANCED;
     }
 
+    /**
+     * use LinkedList & iteration loop for search
+     */
     @FXML
     void linkedListIndex() {
         strategy = Strategy.LINKEDLIST_INDEX;
     }
 
+    /**
+     * opens a file
+     */
     @FXML
     void open() {
         FileChooser fc = new FileChooser();
@@ -68,16 +96,21 @@ public class Controller {
         if (selectedFile != null) {
             try {
                 ac.initialize(selectedFile.toString());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            } catch (FileNotFoundException ignored) {
             }
         }
     }
 
+    /**
+     * Called whenever a key is typed in the search field
+     *
+     * @param event the JavaFx event
+     */
     @FXML
     void searchUpdate(KeyEvent event) {
         if (abs(previousSearch.length() - search.getText().length()) <= 1) {
-            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(), strategy, event.getCharacter().equals("\b"));
+            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(),
+                    strategy, event.getCharacter().equals("\b"));
 
             String output = "";
             for (String s : strings) {
@@ -85,19 +118,22 @@ public class Controller {
             }
 
             previousSearch = search.getText();
-            Matches.setText(output);
-            matchesCount.setText("Matches Found: " + strings.size());
+            matches.setText(output);
+            matchesCount.setText("matches Found: " + strings.size());
             time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
         } else {
             search.setText("");
-            Matches.setText("");
-            matchesCount.setText("Matches Found: 0");
+            matches.setText("");
+            matchesCount.setText("matches Found: 0");
             time.setText("Time Required: 0 nanoseconds");
             previousSearch = "";
             ac.flush();
         }
     }
 
+    /**
+     * Called when program launched
+     */
     @FXML
     void initialize() {
         inject(Main.stage);
@@ -108,6 +144,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Gives this class a reference to the window
+     *
+     * @param stage the stage
+     */
     private void inject(Stage stage) {
         this.stage = stage;
     }

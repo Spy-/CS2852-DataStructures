@@ -34,7 +34,7 @@
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Search:"/>
             <TextField fx:id="search" onKeyTyped="#searchUpdate"/>
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Matches:"/>
-            <TextArea fx:id="Matches" editable="false" prefHeight="238.0" prefWidth="200.0" VBox.vgrow="SOMETIMES"/>
+            <TextArea fx:id="matches" editable="false" prefHeight="238.0" prefWidth="200.0" VBox.vgrow="SOMETIMES"/>
             <HBox prefHeight="25.0" prefWidth="200.0">
                 <Label fx:id="time" prefHeight="25.0" text="Time Required: "/>
                 <VBox prefHeight="200.0" prefWidth="50.0" HBox.hgrow="SOMETIMES"/>

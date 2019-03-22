@@ -1,19 +1,43 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 4 - AutoComplete
+ * Name: John Bretz
+ * Created: 3/22/2019
+ */
 package bretzj;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.Stack;
 
+/**
+ * Class for the AutoComplete functionality
+ */
 public class AutoCompleter {
 
     private Stack<ArrayList<String>> stack = new Stack<>();
     private long start, end;
     private boolean dictionaryLoaded = false;
 
+    /**
+     * Constructor for an AutoCompleter
+     *
+     * @param list the list of valid words
+     */
     public AutoCompleter(ArrayList<String> list) {
         stack.push(list);
     }
 
+    /**
+     * loads a master dictionary for the AutoCompleter
+     *
+     * @param fileName the file name
+     * @throws FileNotFoundException if the file does not exist
+     */
     public void initialize(String fileName) throws FileNotFoundException {
         File file = new File(fileName);
 
@@ -26,6 +50,11 @@ public class AutoCompleter {
         }
     }
 
+    /**
+     * Called by initialize() if the file is a csv file
+     *
+     * @param scan a scanner object
+     */
     private void loadCSVFile(Scanner scan) {
         stack.clear();
         ArrayList<String> words = new ArrayList<>();
@@ -41,6 +70,11 @@ public class AutoCompleter {
         System.out.println("Loaded " + words.size() + " elements.");
     }
 
+    /**
+     * Called by initialize() if the file is a txt file
+     *
+     * @param scan a scanner object
+     */
     private void loadTextFile(Scanner scan) {
         stack.clear();
         ArrayList<String> words = new ArrayList<>();
@@ -54,6 +88,14 @@ public class AutoCompleter {
         System.out.println("Loaded " + words.size() + " elements.");
     }
 
+    /**
+     * Finds all the words that start with a given substring
+     *
+     * @param text        the starting substring
+     * @param strategy    how to look for valid matches
+     * @param isBackspace was the last key typed a backspace?
+     * @return an ArrayList with all the matches
+     */
     public ArrayList<String> allThatBeginsWith(String text, Strategy strategy, boolean isBackspace) {
         ArrayList<String> words;
 
@@ -72,6 +114,15 @@ public class AutoCompleter {
         return words;
     }
 
+    /**
+     * Called by allThatBeginsWith().
+     * Actually does the searching
+     *
+     * @param text      the starting substring
+     * @param strategy  how to look for valid matches
+     * @param container a List containing all possible words
+     * @return an ArrayList with all the matches
+     */
     private ArrayList<String> search(String text, Strategy strategy, ArrayList<String> container) {
         ArrayList<String> words = new ArrayList<>();
         ArrayList<String> array = new ArrayList<>(container);
@@ -115,6 +166,11 @@ public class AutoCompleter {
         return words;
     }
 
+    /**
+     * How long the last search() took
+     *
+     * @return the time in nanoseconds
+     */
     public long getLastOperationTime() {
         if (dictionaryLoaded) {
             return end - start;
@@ -123,6 +179,9 @@ public class AutoCompleter {
         }
     }
 
+    /**
+     * Flushes the stack, but keeps the master dictionary
+     */
     public void flush() {
         while (stack.size() > 1) {
             stack.pop();
