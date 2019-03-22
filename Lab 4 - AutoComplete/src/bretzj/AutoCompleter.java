@@ -11,9 +11,11 @@ public class AutoCompleter {
 
     private ArrayList<String> words;
     private long start, end;
+    private boolean dictionaryLoaded = false;
 
     public AutoCompleter(List<String> list) {
         this.words = new ArrayList<>(list);
+        System.out.println(start);
     }
 
     public void initialize(String fileName) throws FileNotFoundException {
@@ -34,11 +36,11 @@ public class AutoCompleter {
 
     private void loadTextFile(Scanner scan) {
         words.clear();
-        String word;
 
         while (scan.hasNextLine()) {
             words.add(scan.nextLine());
         }
+        dictionaryLoaded = true;
         System.out.println("Loaded " + words.size() + " elements.");
     }
 
@@ -89,6 +91,10 @@ public class AutoCompleter {
     }
 
     public long getLastOperationTime() {
-        return end - start;
+        if (dictionaryLoaded) {
+            return end - start;
+        } else {
+            throw new IllegalStateException("Must call Initialize() prior to calling this method");
+        }
     }
 }
