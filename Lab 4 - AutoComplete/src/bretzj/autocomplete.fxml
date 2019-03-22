@@ -27,7 +27,7 @@
         <VBox prefHeight="375.0" prefWidth="10.0"/>
         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Search:"/>
-            <TextField onKeyTyped="#searchUpdate"/>
+            <TextField fx:id="search" onKeyTyped="#searchUpdate"/>
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Matches:"/>
             <TextArea fx:id="Matches" editable="false" prefHeight="238.0" prefWidth="200.0" VBox.vgrow="SOMETIMES"/>
             <HBox prefHeight="25.0" prefWidth="200.0">
