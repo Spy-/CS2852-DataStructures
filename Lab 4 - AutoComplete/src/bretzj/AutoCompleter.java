@@ -30,12 +30,18 @@ public class AutoCompleter {
     }
 
     private void loadCSVFile(Scanner scan) {
-        System.out.println("CSV");
+        System.out.println("CSV TODO");
     }
 
     private void loadTextFile(Scanner scan) {
+        array.clear();
+        linked.clear();
+        String word;
+
         while (scan.hasNextLine()) {
-            array.add(scan.nextLine());
+            word = scan.nextLine();
+            array.add(word);
+            linked.add(word);
         }
         System.out.println("Loaded " + array.size() + " elements.");
     }
