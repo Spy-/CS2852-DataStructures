@@ -109,22 +109,4 @@ public class Controller {
     private void inject(Stage stage) {
         this.stage = stage;
     }
-
-    private String formatTime() {
-        // less then us -> show nanos
-        // less then ms -> show micro
-        // less then s  -> show ms
-        // else         -> 00:00.000
-
-        long nanos = ac.getLastOperationTime();
-
-        if (nanos < 1000) {
-            return nanos + " nanoseconds";
-        } else if (nanos < 1000000) {
-            return roundDecimal(nanos / 1000.0) + " microseconds";
-        } else if (nanos < 1000000000) {
-            return roundDecimal(nanos / 1000000.0) + " milliseconds";
-        }
-        return "XX:XX.xxx";
-    }
 }
