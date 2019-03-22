@@ -33,31 +33,31 @@ public class Controller {
     private Strategy strategy = Strategy.ARRAYLIST_ENHANCED;
 
     @FXML
-    void arrayListEnhanced(ActionEvent event) {
+    void arrayListEnhanced() {
         strategy = Strategy.ARRAYLIST_ENHANCED;
         System.out.println(strategy);
     }
 
     @FXML
-    void arrayListIndex(ActionEvent event) {
+    void arrayListIndex() {
         strategy = Strategy.ARRAYLIST_INDEX;
         System.out.println(strategy);
     }
 
     @FXML
-    void linkedListEnhanced(ActionEvent event) {
+    void linkedListEnhanced() {
         strategy = Strategy.LINKEDLIST_ENHANCED;
         System.out.println(strategy);
     }
 
     @FXML
-    void linkedListIndex(ActionEvent event) {
+    void linkedListIndex() {
         strategy = Strategy.LINKEDLIST_INDEX;
         System.out.println(strategy);
     }
 
     @FXML
-    void open(ActionEvent event) {
+    void open() {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
