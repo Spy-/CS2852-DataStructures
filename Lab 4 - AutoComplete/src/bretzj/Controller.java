@@ -36,25 +36,21 @@ public class Controller {
     @FXML
     void arrayListEnhanced() {
         strategy = Strategy.ARRAYLIST_ENHANCED;
-        System.out.println(strategy);
     }
 
     @FXML
     void arrayListIndex() {
         strategy = Strategy.ARRAYLIST_INDEX;
-        System.out.println(strategy);
     }
 
     @FXML
     void linkedListEnhanced() {
         strategy = Strategy.LINKEDLIST_ENHANCED;
-        System.out.println(strategy);
     }
 
     @FXML
     void linkedListIndex() {
         strategy = Strategy.LINKEDLIST_INDEX;
-        System.out.println(strategy);
     }
 
     @FXML
