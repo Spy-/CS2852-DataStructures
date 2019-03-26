@@ -8,6 +8,7 @@
 package bretzj;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -21,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static bretzj.Util.formatTime;
+import static bretzj.Util.throwAlert;
 import static java.lang.Math.abs;
 
 /**
@@ -53,6 +55,7 @@ public class Controller {
     @FXML
     void arrayListEnhanced() {
         strategy = Strategy.ARRAYLIST_ENHANCED;
+        ac.reload();
     }
 
     /**
@@ -61,6 +64,7 @@ public class Controller {
     @FXML
     void arrayListIndex() {
         strategy = Strategy.ARRAYLIST_INDEX;
+        ac.reload();
     }
 
     /**
@@ -69,6 +73,7 @@ public class Controller {
     @FXML
     void linkedListEnhanced() {
         strategy = Strategy.LINKEDLIST_ENHANCED;
+        ac.reload();
     }
 
     /**
@@ -77,6 +82,7 @@ public class Controller {
     @FXML
     void linkedListIndex() {
         strategy = Strategy.LINKEDLIST_INDEX;
+        ac.reload();
     }
 
     /**
@@ -108,40 +114,46 @@ public class Controller {
      */
     @FXML
     void searchUpdate(KeyEvent event) {
-        if (abs(previousSearch.length() - search.getText().length()) <= 1) {
-            ArrayList<String> strings = ac.allThatBeginsWith(search.getText(),
-                    strategy, event.getCharacter().equals("\b"));
+        try {
+            if (abs(previousSearch.length() - search.getText().length()) <= 1) {
+                ArrayList<String> strings = ac.allThatBeginsWith(search.getText(),
+                        strategy, event.getCharacter().equals("\b"));
 
-            String output = "";
-            for (String s : strings) {
-                output += s + "\n";
+                String output = "";
+                for (String s : strings) {
+                    output += s + "\n";
+                }
+
+                previousSearch = search.getText();
+                matches.setText(output);
+                matchesCount.setText("matches Found: " + strings.size());
+                time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
+            } else {
+                search.setText("");
+                matches.setText("");
+                matchesCount.setText("matches Found: 0");
+                time.setText("Time Required: 0 nanoseconds");
+                previousSearch = "";
+                ac.flush();
             }
-
-            previousSearch = search.getText();
-            matches.setText(output);
-            matchesCount.setText("matches Found: " + strings.size());
-            time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
-        } else {
+        } catch (IllegalStateException ise) {
+            throwAlert(new Alert(Alert.AlertType.ERROR), "Illegal State",
+                    "The System entered an illegal state", "You must load a file first").show();
             search.setText("");
-            matches.setText("");
-            matchesCount.setText("matches Found: 0");
-            time.setText("Time Required: 0 nanoseconds");
-            previousSearch = "";
-            ac.flush();
         }
     }
 
     /**
-     * Called when program launched
+     * Called when program is launched
      */
     @FXML
     void initialize() {
         inject(Main.stage);
         ac = new AutoCompleter(new ArrayList<>());
-        try {
-            ac.initialize("words.txt");
-        } catch (FileNotFoundException ignored) {
-        }
+//        try {
+//            ac.initialize("words.txt");
+//        } catch (FileNotFoundException ignored) {
+//        }
     }
 
     /**
