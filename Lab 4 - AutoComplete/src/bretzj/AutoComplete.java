@@ -10,6 +10,16 @@ package bretzj;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/*
+ * Benchmark Discussion
+ *
+ * For results see Benchmark.md
+ *
+ * The testing was done simply be running the program, picking a strategy and seeing the time required to finish the search.
+ * Unsurprisingly the both index methods were slower than the enhanced for loops. A bit more surprisingly was the the iterator
+ * for the ArrayList was almost twice as fast as it's LinkedList counterpart.
+ */
+
 /**
  * Interface for required methods for an auto complete implementation;
  */
