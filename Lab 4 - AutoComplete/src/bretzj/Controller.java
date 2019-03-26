@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -29,8 +28,6 @@ import static java.lang.Math.abs;
  * class for the JavaFx Controller
  */
 public class Controller {
-    @FXML
-    private ToggleGroup strat;
 
     @FXML
     private TextField search;
