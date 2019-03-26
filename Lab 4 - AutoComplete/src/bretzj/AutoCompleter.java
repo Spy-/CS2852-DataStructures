@@ -143,40 +143,46 @@ public class AutoCompleter {
         ArrayList<String> array = new ArrayList<>(container);
         LinkedList<String> linked = new LinkedList<>(container);
 
-        start = System.nanoTime();
         if (!text.equals("")) {
             switch (strategy) {
                 case ARRAYLIST_INDEX:
+                    start = System.nanoTime();
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).startsWith(text)) {
                             words.add(array.get(i));
                         }
                     }
+                    end = System.nanoTime();
                     break;
                 case LINKEDLIST_INDEX:
+                    start = System.nanoTime();
                     for (int i = 0; i < linked.size(); i++) {
                         if (linked.get(i).startsWith(text)) {
                             words.add(linked.get(i));
                         }
                     }
+                    end = System.nanoTime();
                     break;
                 case ARRAYLIST_ENHANCED:
+                    start = System.nanoTime();
                     for (String s : array) {
                         if (s.startsWith(text)) {
                             words.add(s);
                         }
                     }
+                    end = System.nanoTime();
                     break;
                 case LINKEDLIST_ENHANCED:
+                    start = System.nanoTime();
                     for (String s : linked) {
                         if (s.startsWith(text)) {
                             words.add(s);
                         }
                     }
+                    end = System.nanoTime();
                     break;
             }
         }
-        end = System.nanoTime();
 
         return words;
     }
