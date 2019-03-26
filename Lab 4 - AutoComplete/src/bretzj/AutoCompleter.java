@@ -22,6 +22,7 @@ public class AutoCompleter {
     private Stack<ArrayList<String>> stack = new Stack<>();
     private long start, end;
     private boolean dictionaryLoaded = false;
+    private String dictionaryFileName = "";
 
     /**
      * Constructor for an AutoCompleter
@@ -39,6 +40,7 @@ public class AutoCompleter {
      * @throws FileNotFoundException if the file does not exist
      */
     public void initialize(String fileName) throws FileNotFoundException {
+        dictionaryFileName = fileName;
         File file = new File(fileName);
 
         try (Scanner fileScan = new Scanner(file)) {
@@ -47,6 +49,18 @@ public class AutoCompleter {
             } else if (fileName.endsWith(".csv")) {
                 loadCSVFile(fileScan);
             }
+        }
+    }
+
+    /**
+     * Will reload the currently loaded dictionary file
+     */
+    public void reload() {
+        try {
+            if (dictionaryLoaded) {
+                initialize(dictionaryFileName);
+            }
+        } catch (FileNotFoundException ignored) {
         }
     }
 
@@ -96,7 +110,8 @@ public class AutoCompleter {
      * @param isBackspace was the last key typed a backspace?
      * @return an ArrayList with all the matches
      */
-    public ArrayList<String> allThatBeginsWith(String text, Strategy strategy, boolean isBackspace) {
+    public ArrayList<String> allThatBeginsWith(String text, Strategy strategy,
+                                               boolean isBackspace) {
         ArrayList<String> words;
 
         if (isBackspace) {
@@ -110,7 +125,7 @@ public class AutoCompleter {
             words = search(text, strategy, stack.peek());
             stack.push(words);
         }
-        System.out.println(stack.size());
+
         return words;
     }
 
