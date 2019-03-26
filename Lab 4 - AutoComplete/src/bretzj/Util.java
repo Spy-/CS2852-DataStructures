@@ -41,7 +41,7 @@ public class Util {
      * @return the number rounded
      */
     public static double roundDecimal(double value) {
-        final double modifier = 100.0;
+        final double modifier = 1000.0;
         return Math.round(value * modifier) / modifier;
     }
 

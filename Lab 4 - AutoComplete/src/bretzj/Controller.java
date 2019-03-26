@@ -53,6 +53,7 @@ public class Controller {
     void arrayListEnhanced() {
         strategy = Strategy.ARRAYLIST_ENHANCED;
         ac.reload();
+        reset();
     }
 
     /**
@@ -62,6 +63,7 @@ public class Controller {
     void arrayListIndex() {
         strategy = Strategy.ARRAYLIST_INDEX;
         ac.reload();
+        reset();
     }
 
     /**
@@ -71,6 +73,7 @@ public class Controller {
     void linkedListEnhanced() {
         strategy = Strategy.LINKEDLIST_ENHANCED;
         ac.reload();
+        reset();
     }
 
     /**
@@ -80,6 +83,7 @@ public class Controller {
     void linkedListIndex() {
         strategy = Strategy.LINKEDLIST_INDEX;
         ac.reload();
+        reset();
     }
 
     /**
@@ -99,7 +103,9 @@ public class Controller {
         if (selectedFile != null) {
             try {
                 ac.initialize(selectedFile.toString());
-            } catch (FileNotFoundException ignored) {
+            } catch (FileNotFoundException fne) {
+                throwAlert(new Alert(Alert.AlertType.ERROR), "File Not Found",
+                        "File Not Found", "The file isn't there anymore!").show();
             }
         }
         reset();
