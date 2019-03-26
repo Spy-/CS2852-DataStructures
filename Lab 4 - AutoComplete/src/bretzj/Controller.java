@@ -117,13 +117,13 @@ public class Controller {
                 ArrayList<String> strings = ac.allThatBeginsWith(search.getText(),
                         strategy, event.getCharacter().equals("\b"));
 
-                String output = "";
+                StringBuilder output = new StringBuilder();
                 for (String s : strings) {
-                    output += s + "\n";
+                    output.append(s).append("\n");
                 }
 
                 previousSearch = search.getText();
-                matches.setText(output);
+                matches.setText(output.toString());
                 matchesCount.setText("matches Found: " + strings.size());
                 time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
             } else {
