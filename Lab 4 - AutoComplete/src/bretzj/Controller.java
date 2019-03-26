@@ -105,6 +105,7 @@ public class Controller {
             } catch (FileNotFoundException ignored) {
             }
         }
+        reset();
     }
 
     /**
@@ -129,11 +130,7 @@ public class Controller {
                 matchesCount.setText("matches Found: " + strings.size());
                 time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
             } else {
-                search.setText("");
-                matches.setText("");
-                matchesCount.setText("matches Found: 0");
-                time.setText("Time Required: 0 nanoseconds");
-                previousSearch = "";
+                reset();
                 ac.flush();
             }
         } catch (IllegalStateException ise) {
@@ -154,6 +151,17 @@ public class Controller {
 //            ac.initialize("words.txt");
 //        } catch (FileNotFoundException ignored) {
 //        }
+    }
+
+    /**
+     * Resets all of the text on screen to their default values
+     */
+    private void reset() {
+        search.setText("");
+        matches.setText("");
+        matchesCount.setText("matches Found: 0");
+        time.setText("Time Required: 0 nanoseconds");
+        previousSearch = "";
     }
 
     /**
