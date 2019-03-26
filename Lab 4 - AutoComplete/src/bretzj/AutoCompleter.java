@@ -17,7 +17,7 @@ import java.util.Stack;
 /**
  * Class for the AutoComplete functionality
  */
-public class AutoCompleter {
+public class AutoCompleter implements AutoComplete {
 
     private Stack<ArrayList<String>> stack = new Stack<>();
     private long start, end;
