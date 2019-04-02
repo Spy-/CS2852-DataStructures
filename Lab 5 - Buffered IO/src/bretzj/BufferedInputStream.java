@@ -153,7 +153,6 @@ public class BufferedInputStream {
      * Helper method to check if a proper number of bits has been read before reading any bytes
      */
     private void checkIfBitsLeftover() {
-        System.out.println("bitsRead = " + bitsRead);
         if (bitsRead % 8 != 0) {
             throw new IllegalStateException();
         }

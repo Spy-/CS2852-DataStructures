@@ -5,8 +5,9 @@
  * Name: John Bretz
  * Created: 4/1/2019
  */
-package bretzj;
+package tests;
 
+import bretzj.BufferedOutputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
