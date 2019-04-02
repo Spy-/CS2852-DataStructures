@@ -24,50 +24,42 @@ public class BufferedInputStream {
             throw new IllegalArgumentException("Size must be > 0");
         }
         buffer = new byte[size];
+        pos = size;
     }
 
     public int read() throws IOException {
-        checkIfBitsRead();
-        if (pos >= buffer.length) {
+        checkIfBitsLeftover();
+        if (pos == buffer.length) {
             flush();
+            refill();
         }
 
-        try {
-            buffer[++pos] = (byte) in.read();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            flush();
-            buffer[++pos] = (byte) in.read();
-        }
-
-        return buffer[pos];
+        return buffer[pos++];
     }
 
     public int read(byte[] b) throws IOException {
+        checkIfBitsLeftover();
         return read(b, 0, b.length);
     }
 
     private int read(byte[] b, int off, int len) throws IOException {
-        checkIfBitsRead();
+        checkIfBitsLeftover();
         int count = 0;
-        for (int i = 0; i < len - off; i++) {
-            int val = in.read();
-
-            if (val <= 0) {
-                return count == 0 ? val : count;
+        if (pos == buffer.length) {
+            flush();
+            refill();
+        }
+        for (int i = off; i < len; i++) {
+            if (pos == buffer.length) {
+                flush();
+                refill();
             }
-
-            if (count >= len) {
+            if (buffer[pos] == -1) {
                 return count;
             }
-
-            if (pos >= buffer.length) {
-                flush();
-            }
-
+            b[i] = buffer[pos++];
             count++;
-            buffer[++pos] = b[i] = (byte) val;
         }
-
         return count;
     }
 
