@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 4 - Auto Complete
+ * Name: John Bretz
+ * Created: 3/16/2019
+ */
 package bretzj;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class BufferedInputStreamTest {
 
     private BufferedInputStream input;
-    private static final byte[] BYTES = new byte[]{1, 2, 4, 8, 16, 32, 64};
+    private static final byte[] BYTES = new byte[] {1, 2, 4, 8, 16, 32, 64};
+    private static final int ERROR = -1;
 
     /**
      * Called before each test
@@ -33,14 +41,10 @@ class BufferedInputStreamTest {
      */
     @Test
     void read() throws IOException {
-        assertEquals(1, input.read());
-        assertEquals(2, input.read());
-        assertEquals(4, input.read());
-        assertEquals(8, input.read());
-        assertEquals(16, input.read());
-        assertEquals(32, input.read());
-        assertEquals(64, input.read());
-        assertEquals(-1, input.read());
+        for (byte b : BYTES) {
+            assertEquals(b, input.read());
+        }
+        assertEquals(ERROR, input.read());
     }
 
     /**
@@ -51,8 +55,8 @@ class BufferedInputStreamTest {
     @Test
     void readAndCopyToSmallArray() throws IOException {
         byte[] underSized = new byte[6];
-        assertEquals(6, input.read(underSized));
-        assertArrayEquals(new byte[]{1, 2, 4, 8, 16, 32}, underSized);
+        assertEquals(underSized.length, input.read(underSized));
+        assertArrayEquals(new byte[] {1, 2, 4, 8, 16, 32}, underSized);
     }
 
     /**
@@ -64,7 +68,7 @@ class BufferedInputStreamTest {
     void readAndCopyToBigArray() throws IOException {
         byte[] overSized = new byte[12];
         assertEquals(7, input.read(overSized));
-        assertArrayEquals(new byte[]{1, 2, 4, 8, 16, 32, 64, 0, 0, 0, 0, 0}, overSized);
+        assertArrayEquals(new byte[] {1, 2, 4, 8, 16, 32, 64, 0, 0, 0, 0, 0}, overSized);
     }
 
     /**
@@ -83,6 +87,7 @@ class BufferedInputStreamTest {
 
     /**
      * Tests if bits are read properly and the proper errors are thrown if not enough bits are read
+     *
      * @throws IOException some exception
      */
     @Test
