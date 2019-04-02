@@ -1,9 +1,9 @@
 /*
  * Course: CS2852
  * Spring 2019
- * Lab 4 - Auto Complete
+ * Lab 5 - Buffered IO
  * Name: John Bretz
- * Created: 3/16/2019
+ * Created: 4/1/2019
  */
 package bretzj;
 
