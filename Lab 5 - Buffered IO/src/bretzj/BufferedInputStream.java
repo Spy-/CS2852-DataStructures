@@ -10,8 +10,8 @@ public class BufferedInputStream {
 
     private InputStream in;
     private int bitsRead = 0;
-    private int bitByte;
-    private int pos = -1;
+    private int bitsPosition;
+    private int pos;
     private byte[] buffer;
 
     public BufferedInputStream(InputStream in) {
@@ -72,43 +72,53 @@ public class BufferedInputStream {
     }
 
     public int readBit() throws IOException {
+        if (pos == buffer.length) {
+            flush();
+            refill();
+        }
+
         switch (bitsRead % 8) {
             case 0:
-                bitByte = in.read();
                 bitsRead++;
-                return bitByte >> 7 & 0b00000001;
+                bitsPosition = pos++;
+                return buffer[bitsPosition] >> 7 & 0b00000001;
             case 1:
                 bitsRead++;
-                return bitByte >> 6 & 0b00000001;
+                return buffer[bitsPosition] >> 6 & 0b00000001;
             case 2:
                 bitsRead++;
-                return bitByte >> 5 & 0b00000001;
+                return buffer[bitsPosition] >> 5 & 0b00000001;
             case 3:
                 bitsRead++;
-                return bitByte >> 4 & 0b00000001;
+                return buffer[bitsPosition] >> 4 & 0b00000001;
             case 4:
                 bitsRead++;
-                return bitByte >> 3 & 0b00000001;
+                return buffer[bitsPosition] >> 3 & 0b00000001;
             case 5:
                 bitsRead++;
-                return bitByte >> 2 & 0b00000001;
+                return buffer[bitsPosition] >> 2 & 0b00000001;
             case 6:
                 bitsRead++;
-                return bitByte >> 1 & 0b00000001;
+                return buffer[bitsPosition] >> 1 & 0b00000001;
             default:
                 bitsRead++;
-                return bitByte & 0b00000001;
+                return buffer[bitsPosition] & 0b00000001;
         }
     }
 
-    private void checkIfBitsRead() {
+    private void checkIfBitsLeftover() {
+        System.out.println("bitsRead = " + bitsRead);
         if (bitsRead % 8 != 0) {
             throw new IllegalStateException();
         }
     }
 
-    private void flush() {
-        buffer = new byte[buffer.length];
-        pos = -1;
+    private void refill() throws IOException {
+        in.read(buffer);
+    }
+
+    public void flush() {
+        Arrays.fill(buffer, (byte) -1);
+        pos = 0;
     }
 }
