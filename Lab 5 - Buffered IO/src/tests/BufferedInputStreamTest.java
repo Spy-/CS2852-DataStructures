@@ -105,8 +105,8 @@ class BufferedInputStreamTest {
 
         // test calling read() after an invalid number of bits read
         input.readBit();
-        assertThrows(IllegalStateException.class, input::read); // read(int)
-        assertThrows(IllegalStateException.class, input::read); // read(byte[])
+        assertThrows(IllegalStateException.class, () -> input.read());
+        assertThrows(IllegalStateException.class, () -> input.read(new byte[5]));
 
         // finish reading bits and try to read again
         input.readBit();
