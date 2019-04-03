@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for BufferedOutputStream
@@ -23,7 +24,7 @@ class BufferedOutputStreamTest {
 
     private BufferedOutputStream out;
     private ByteArrayOutputStream bout;
-    private static final byte[] BYTES = new byte[] {1, 2, 4, 8, 16, 32, 64};
+    private static final byte[] BYTES = new byte[]{1, 2, 4, 8, 16, 32, 64};
 
     /**
      * Called before each test
@@ -63,6 +64,39 @@ class BufferedOutputStreamTest {
     }
 
     /**
+     * Tests the writing of bits
+     *
+     * @throws IOException some exception
+     */
+    @Test
+    void writeBit() throws IOException {
+        out.writeBit(0);
+        out.writeBit(1);
+        out.writeBit(0);
+        out.writeBit(0);
+        out.writeBit(0);
+        out.writeBit(1);
+        out.writeBit(0);
+        out.writeBit(0);
+
+        out.writeBit(0);
+        assertThrows(IllegalStateException.class, () -> out.write(1));
+        assertThrows(IllegalStateException.class, () -> out.write(new byte[5]));
+        out.writeBit(0);
+        out.writeBit(0);
+        out.writeBit(0);
+        out.writeBit(1);
+        out.writeBit(1);
+        out.writeBit(1);
+        out.writeBit(1);
+
+        out.write(5);
+        out.flush();
+
+        assertArrayEquals(new byte[]{68, 15, 5, 0, 0, 0, 0}, bout.toByteArray());
+    }
+
+    /**
      * sends the buffer to the underlying stream
      *
      * @throws IOException some exception
@@ -76,7 +110,7 @@ class BufferedOutputStreamTest {
         out.write(1);
         out.flush();
 
-        assertArrayEquals(new byte[] {14, 7, 3, 2, 1, 0, 0}, bout.toByteArray());
+        assertArrayEquals(new byte[]{14, 7, 3, 2, 1, 0, 0}, bout.toByteArray());
     }
 
     /**
@@ -87,6 +121,6 @@ class BufferedOutputStreamTest {
     @Test
     void flushWithoutWriting() throws IOException {
         out.flush();
-        assertArrayEquals(new byte[] {}, bout.toByteArray());
+        assertArrayEquals(new byte[]{}, bout.toByteArray());
     }
 }

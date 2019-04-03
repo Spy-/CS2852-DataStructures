@@ -19,6 +19,8 @@ public class BufferedOutputStream {
     private byte[] buffer;
     private static final int DEFAULT_SIZE = 8;
     private int count = 0;
+    private int bitCount = 0;
+    private int bitPos;
 
     /**
      * Basic constructor that will use the default buffer size
@@ -47,6 +49,7 @@ public class BufferedOutputStream {
      * @throws IOException some exception
      */
     public void write(int b) throws IOException {
+        checkBitCount();
         if (count >= buffer.length) {
             flushBuffer();
         }
@@ -60,6 +63,7 @@ public class BufferedOutputStream {
      * @throws IOException some exception
      */
     public void write(byte[] b) throws IOException {
+        checkBitCount();
         write(b, 0, b.length);
     }
 
@@ -86,6 +90,57 @@ public class BufferedOutputStream {
     }
 
     /**
+     * Writes a bit
+     *
+     * @param bit the bit
+     * @throws IOException some exception
+     */
+    public void writeBit(int bit) throws IOException {
+        if (bit != 1 && bit != 0) {
+            throw new IllegalArgumentException("Can only pass a zero or a one");
+        }
+        if (count >= buffer.length) {
+            flushBuffer();
+        }
+
+        switch (bitCount % 8) {
+            case 0:
+                bitPos = count++;
+                buffer[bitPos] = (byte) (bit << 7);
+                bitCount++;
+                break;
+            case 1:
+                buffer[bitPos] = (byte) ((bit << 6) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 2:
+                buffer[bitPos] = (byte) ((bit << 5) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 3:
+                buffer[bitPos] = (byte) ((bit << 4) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 4:
+                buffer[bitPos] = (byte) ((bit << 3) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 5:
+                buffer[bitPos] = (byte) ((bit << 2) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 6:
+                buffer[bitPos] = (byte) ((bit << 1) | buffer[bitPos]);
+                bitCount++;
+                break;
+            case 7:
+                buffer[bitPos] = (byte) (bit | buffer[bitPos]);
+                bitCount++;
+                break;
+        }
+    }
+
+    /**
      * Sends the buffer to be written to the underlying OutputStream
      *
      * @throws IOException some exception
@@ -105,5 +160,15 @@ public class BufferedOutputStream {
     public void flush() throws IOException {
         flushBuffer();
         out.flush();
+    }
+
+    /**
+     * Throws an IllegalStateException if an improper number of bits has been written
+     * before trying to write a byte
+     */
+    private void checkBitCount() {
+        if (bitCount % 8 != 0) {
+            throw new IllegalStateException();
+        }
     }
 }
