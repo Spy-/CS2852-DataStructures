@@ -95,15 +95,14 @@ public class GameBoard {
     public List<String> findWords() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                recursiveSearch(i, j, getInitialFlags(i, j), (String.valueOf(grid[i][j])));
+                recursiveSearch(i, j, getInitialFlags(), (String.valueOf(grid[i][j])));
             }
         }
-        System.out.println(count);
 
         return words;
     }
 
-    private boolean[][] getInitialFlags(int row, int col) {
+    private boolean[][] getInitialFlags() {
         boolean[][] flags = new boolean[grid.length][grid[0].length];
 
         for (int i = 0; i < grid.length; i++) {
