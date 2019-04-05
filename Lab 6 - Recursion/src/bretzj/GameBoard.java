@@ -12,7 +12,6 @@ public class GameBoard {
     private AutoCompleter autoCompleter;
     private char[][] grid;
     private ArrayList<String> words = new ArrayList<>();
-    private static int count = 0;
 
     public GameBoard(AutoCompleter strategy) {
         if (strategy == null || !strategy.isInitialized()) {
@@ -43,7 +42,54 @@ public class GameBoard {
     }
 
     private void recursiveSearch(int row, int col, boolean[][] visitedFlags, String word) {
+        if (autoCompleter.contains(word) && !(word.length() < 3)) words.add(word);
 
+        if (!autoCompleter.hasPrefix(word)) return;
+
+        if (word.length() > 15) return;
+
+        boolean[][] tmp = copyArray(visitedFlags);
+        tmp[row][col] = true;
+
+        //upper left
+        if (0 <= row - 1 && 0 <= col - 1 && !tmp[row - 1][col - 1]) {
+            recursiveSearch(row - 1, col - 1, tmp, word + grid[row - 1][col - 1]);
+        }
+
+        //up
+        if (0 <= col - 1 && !tmp[row][col - 1]) {
+            recursiveSearch(row, col - 1, tmp, word + grid[row][col - 1]);
+        }
+
+        //upper right
+        if (row + 1 < grid.length && 0 <= col - 1 && !tmp[row + 1][col - 1]) {
+            recursiveSearch(row + 1, col - 1, tmp, word + grid[row + 1][col - 1]);
+        }
+
+        //right
+        if (row + 1 < grid.length && !tmp[row + 1][col]) {
+            recursiveSearch(row + 1, col, tmp, word + grid[row + 1][col]);
+        }
+
+        //lower right
+        if (row + 1 < grid.length && col + 1 < grid[0].length && !tmp[row + 1][col + 1]) {
+            recursiveSearch(row + 1, col + 1, tmp, word + grid[row + 1][col + 1]);
+        }
+
+        //down
+        if (col + 1 < grid[0].length && !tmp[row][col + 1]) {
+            recursiveSearch(row, col + 1, tmp, word + grid[row][col + 1]);
+        }
+
+        //lower left
+        if (0 <= row - 1 && col + 1 < grid[0].length && !tmp[row - 1][col + 1]) {
+            recursiveSearch(row - 1, col + 1, tmp, word + grid[row - 1][col + 1]);
+        }
+
+        //left
+        if (0 <= row - 1 && !tmp[row - 1][col]) {
+            recursiveSearch(row - 1, col, tmp, word + grid[row - 1][col]);
+        }
     }
 
     public List<String> findWords() {
@@ -67,5 +113,13 @@ public class GameBoard {
         }
 
         return flags;
+    }
+
+    private boolean[][] copyArray(boolean[][] orig) {
+        boolean[][] remake = new boolean[orig.length][orig[0].length];
+        for (int x = 0; x < orig.length; x++) {
+            System.arraycopy(orig[x], 0, remake[x], 0, orig[0].length);
+        }
+        return remake;
     }
 }
