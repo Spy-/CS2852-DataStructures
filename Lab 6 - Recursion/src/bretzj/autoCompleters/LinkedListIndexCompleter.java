@@ -10,7 +10,7 @@ public class LinkedListIndexCompleter extends BaseAutoCompleter {
         ArrayList<String> matches = new ArrayList<>();
         LinkedList<String> lwords = new LinkedList<>(words);
 
-        for (int i=0; i<lwords.size();i++) {
+        for (int i = 0; i < lwords.size(); i++) {
             String word = lwords.get(i);
             if (word.startsWith(prefix)) {
                 matches.add(word);

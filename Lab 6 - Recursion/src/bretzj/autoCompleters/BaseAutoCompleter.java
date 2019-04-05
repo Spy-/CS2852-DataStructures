@@ -4,7 +4,9 @@ import bretzj.AutoCompleter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public abstract class BaseAutoCompleter implements AutoCompleter {
 

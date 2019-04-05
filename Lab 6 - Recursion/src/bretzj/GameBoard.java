@@ -37,7 +37,8 @@ public class GameBoard {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();//TODO
+            System.out.println("That File does not exist");
+            System.exit(0);
         }
     }
 
