@@ -1,13 +1,11 @@
 package bretzj;
 
-import bretzj.autoCompleters.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static bretzj.AutoComplete.*;
 
 public class WordSearchCLI {
 
@@ -15,7 +13,7 @@ public class WordSearchCLI {
     private static File dictionary;
     private static Strategy strategy;
 
-    private static AutoCompleter autoCompleter;
+    private static AutoComplete autoCompleter;
     private static GameBoard gameBoard;
     private static List<String> words;
     private static long start, end;
@@ -70,19 +68,19 @@ public class WordSearchCLI {
         switch (strategy) {
 
             case ARRAYLIST_ENHANCED:
-                autoCompleter = new ArrayListIterCompleter();
+                autoCompleter = ArrayIteratorFactory();
                 break;
             case ARRAYLIST_INDEX:
-                autoCompleter = new ArrayListIndexCompleter();
+                autoCompleter = ArrayIndexFactory();
                 break;
             case LINKEDLIST_ENHANCED:
-                autoCompleter = new LinkedListIterCompleter();
+                autoCompleter = LinkedIteratorFactory();
                 break;
             case LINKEDLIST_INDEX:
-                autoCompleter = new LinkedListIndexCompleter();
+                autoCompleter = LinkedIndexFactory();
                 break;
             case SORTED_LIST:
-                autoCompleter = new SortedArrayListCompleter();
+                autoCompleter = SortedArrayFactory();
                 break;
         }
 
@@ -101,11 +99,12 @@ public class WordSearchCLI {
     }
 
     private static void printStats() {
+        Set<String> unique = new HashSet<>(words);
         for (String s : words) {
             System.out.println(s);
         }
 
-        System.out.println("Found " + words.size() + " words");
+        System.out.println("Found " + words.size() + " words with " + unique.size() + " unique words.");
 
         System.out.println(new SimpleDateFormat("mm:ss.SSS").format(new Date(end - start)));
     }

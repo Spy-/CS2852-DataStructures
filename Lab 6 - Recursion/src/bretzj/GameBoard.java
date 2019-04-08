@@ -9,11 +9,11 @@ import java.util.Scanner;
 
 public class GameBoard {
 
-    private AutoCompleter autoCompleter;
+    private AutoComplete autoCompleter;
     private char[][] grid;
     private ArrayList<String> words = new ArrayList<>();
 
-    public GameBoard(AutoCompleter strategy) {
+    public GameBoard(AutoComplete strategy) {
         if (strategy == null || !strategy.isInitialized()) {
             throw new IllegalArgumentException("AutoCompleter can't be null");
         }
