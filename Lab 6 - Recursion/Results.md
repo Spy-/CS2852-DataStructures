@@ -70,8 +70,8 @@ loin
 loins
 lore
 lores
-Found 67 words
-00:02.693
+Found 67 words of which 67 are unique.
+00:03.431
 ```
 
 ## Results of 4 x 4 Grid with Iterated LinkedList
@@ -314,14 +314,82 @@ lots
 lost
 lost
 lose
-Found 237 words
-00:17.392
+Found 237 words of which 204 are unique.
+00:32.099
 ```
 
 ## Results of 3 x 3 Grid with SortedArrayList
 
 ```
-COPY AND PASTE ALL OUTPUT HERE
+snail
+shin
+shine
+shiner
+shoe
+shoer
+shore
+she
+sheol
+sen
+senior
+senhor
+ser
+ens
+eolian
+res
+resh
+reoil
+rho
+roe
+roes
+roil
+nail
+nil
+nerol
+neroli
+hail
+hanse
+hin
+hins
+hoe
+hoes
+hoer
+hes
+hen
+hens
+her
+hero
+heroin
+heroins
+oes
+ohs
+ohia
+oil
+ore
+ores
+ain
+aine
+ains
+ail
+ani
+anil
+ane
+anes
+ins
+inshore
+lin
+line
+lines
+liner
+lins
+liane
+lianes
+loin
+loins
+lore
+lores
+Found 67 words of which 67 are unique.
+01:44.868
 ```
 
 ## Description of approach for experimental benchmarking
