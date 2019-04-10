@@ -1,24 +1,42 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 6 - Recursion
+ * Name: John Bretz
+ * Created: 4/5/2019
+ */
 package bretzj;
 
 import edu.msoe.cs2852.SortedArrayList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
+/**
+ * Class for AutoCompleting words
+ */
 public class AutoComplete {
 
     protected ArrayList<String> words = new ArrayList<>();
     private boolean isInitialized = false;
     private AutoCompleter method;
 
+    /**
+     * Constructor. Used by the Factory methods to properly create objects
+     *
+     * @param method an AutoCompleter
+     */
     private AutoComplete(AutoCompleter method) {
         this.method = method;
     }
 
+    /**
+     * Loads a dictionary file
+     *
+     * @param filename the file name
+     * @throws FileNotFoundException if the file does not exist
+     */
     public void initialize(String filename) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(filename));
         words.clear();
@@ -32,19 +50,45 @@ public class AutoComplete {
         isInitialized = true;
     }
 
-    public boolean hasPrefix(String prefix) {
-        return method.allThatBeginsWith(prefix, words).size() > 0;
-    }
-
+    /**
+     * Returns true if the dictionary has the given word
+     *
+     * @param target the word
+     * @return true if the word is in the dictionary
+     */
     public boolean contains(String target) {
-        return method.allThatBeginsWith(target, words).contains(target);
+        return method.contains(target, words);
     }
 
+    /**
+     * does the dictionary have at least one word that starts with the prefix
+     *
+     * @param prefix the prefix
+     * @return true if the prefix is valid
+     */
+    public boolean hasPrefix(String prefix) {
+        if (isInitialized) {
+            return method.allThatBeginsWith(prefix, words).size() > 0;
+        } else {
+            throw new IllegalStateException("Must call initialize");
+        }
+    }
+
+    /**
+     * Checks if a dictionary was loaded
+     *
+     * @return true if it was loaded
+     */
     public boolean isInitialized() {
         return isInitialized;
     }
 
-    public static AutoComplete ArrayIndexFactory() {
+    /**
+     * Creates an AutoComplete object that uses an Indexed ArrayList for searching
+     *
+     * @return the created object
+     */
+    public static AutoComplete arrayIndexFactory() {
         return new AutoComplete((prefix, words) -> {
             ArrayList<String> matches = new ArrayList<>();
             for (int i = 0; i < words.size(); i++) {
@@ -57,7 +101,12 @@ public class AutoComplete {
         });
     }
 
-    public static AutoComplete ArrayIteratorFactory() {
+    /**
+     * Creates an AutoComplete object that uses an Iterated ArrayList for searching
+     *
+     * @return the created object
+     */
+    public static AutoComplete arrayIteratorFactory() {
         return new AutoComplete((prefix, words) -> {
             ArrayList<String> matches = new ArrayList<>();
             for (String word : words) {
@@ -69,7 +118,12 @@ public class AutoComplete {
         });
     }
 
-    public static AutoComplete LinkedIndexFactory() {
+    /**
+     * Creates an AutoComplete object that uses an Indexed LinkedList for searching
+     *
+     * @return the created object
+     */
+    public static AutoComplete linkedIndexFactory() {
         return new AutoComplete((prefix, words) -> {
             ArrayList<String> matches = new ArrayList<>();
             LinkedList<String> linkedList = new LinkedList<>(words);
@@ -83,7 +137,12 @@ public class AutoComplete {
         });
     }
 
-    public static AutoComplete LinkedIteratorFactory() {
+    /**
+     * Creates an AutoComplete object that uses an Iterated LinkedList for searching
+     *
+     * @return the created object
+     */
+    public static AutoComplete linkedIteratorFactory() {
         return new AutoComplete((prefix, words) -> {
             ArrayList<String> matches = new ArrayList<>();
             LinkedList<String> linkedList = new LinkedList<>(words);
@@ -97,37 +156,33 @@ public class AutoComplete {
         });
     }
 
-    public static AutoComplete SortedArrayFactory() {
-        return new AutoComplete((prefix, words) -> {
-            ArrayList<String> matches = new ArrayList<>();
-            SortedArrayList<String> sorted = new SortedArrayList<>();
-            sorted.addAll(words);
+    /**
+     * Creates an AutoComplete object that uses the SortedArrayList for searching
+     *
+     * @return the created object
+     */
+    public static AutoComplete sortedArrayFactory() {
+        return new AutoComplete(new AutoCompleter() {
+            @Override
+            public ArrayList<String> allThatBeginsWith(String prefix, List<String> words) {
+                ArrayList<String> matches = new ArrayList<>();
+                SortedArrayList<String> sorted = new SortedArrayList<>();
+                sorted.addAll(words);
 
-            for (String word : sorted) {
-                if (word.startsWith(prefix)) {
-                    matches.add(word);
+                for (String word : sorted) {
+                    if (word.startsWith(prefix)) {
+                        matches.add(word);
+                    }
                 }
+                return matches;
             }
-            return matches;
+
+            @Override
+            public boolean contains(String target, List<String> words) {
+                SortedArrayList<String> sorted = new SortedArrayList<>();
+                sorted.addAll(words);
+                return sorted.contains(target);
+            }
         });
-    }
-
-    private int BinarySearch(SortedArrayList<String> list, String key) {
-        int low = 0;
-        int high = list.size() - 1;
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1;
-            String midVal = list.get(mid);
-            int cmp = midVal.startsWith(key) ? 0 : midVal.compareTo(key);
-
-            if (cmp < 0)
-                low = mid + 1;
-            else if (cmp > 0)
-                high = mid - 1;
-            else
-                return mid; // key found
-        }
-        return -1;  // key not found
     }
 }

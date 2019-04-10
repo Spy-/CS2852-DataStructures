@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 6 - Recursion
+ * Name: John Bretz
+ * Created: 4/5/2019
+ */
 package bretzj;
 
 import java.io.File;
@@ -7,6 +14,9 @@ import java.util.*;
 
 import static bretzj.AutoComplete.*;
 
+/**
+ * Main class for Lab 6
+ */
 public class WordSearchCLI {
 
     private static File grid;
@@ -18,6 +28,12 @@ public class WordSearchCLI {
     private static List<String> words;
     private static long start, end;
 
+    /**
+     * Main entry point into program
+     *
+     * @param args some cmd line arguments
+     * @throws FileNotFoundException if the desired files are not found
+     */
     public static void main(String[] args) throws FileNotFoundException {
         if (args != null && args.length == 3) {
             readArgs(args);
@@ -30,6 +46,11 @@ public class WordSearchCLI {
         }
     }
 
+    /**
+     * Reads the arguments and creates the required variables
+     *
+     * @param args the cmd line arguments
+     */
     private static void readArgs(String[] args) {
         System.out.println(Arrays.toString(args));
 
@@ -64,47 +85,62 @@ public class WordSearchCLI {
         }
     }
 
+    /**
+     * Creates the proper AutoCompleter and initializes it with the dictionary file
+     *
+     * @throws FileNotFoundException if the dictionary file does not exist
+     */
     private static void setupAutoCompleter() throws FileNotFoundException {
         switch (strategy) {
 
             case ARRAYLIST_ENHANCED:
-                autoCompleter = ArrayIteratorFactory();
+                autoCompleter = arrayIteratorFactory();
                 break;
             case ARRAYLIST_INDEX:
-                autoCompleter = ArrayIndexFactory();
+                autoCompleter = arrayIndexFactory();
                 break;
             case LINKEDLIST_ENHANCED:
-                autoCompleter = LinkedIteratorFactory();
+                autoCompleter = linkedIteratorFactory();
                 break;
             case LINKEDLIST_INDEX:
-                autoCompleter = LinkedIndexFactory();
+                autoCompleter = linkedIndexFactory();
                 break;
             case SORTED_LIST:
-                autoCompleter = SortedArrayFactory();
+                autoCompleter = sortedArrayFactory();
                 break;
         }
 
         autoCompleter.initialize(dictionary.getName());
     }
 
+    /**
+     * Creates and loads the gameBoard
+     */
     private static void setupBoard() {
         gameBoard = new GameBoard(autoCompleter);
         gameBoard.load(grid.toPath());
     }
 
+    /**
+     * Tells the game board to find the words
+     */
     private static void findWords() {
         start = System.currentTimeMillis();
         words = gameBoard.findWords();
         end = System.currentTimeMillis();
     }
 
+    /**
+     * prints the words, word count, and time it took to execute
+     */
     private static void printStats() {
         Set<String> unique = new HashSet<>(words);
         for (String s : words) {
             System.out.println(s);
         }
 
-        System.out.println("Found " + words.size() + " words with " + unique.size() + " unique words.");
+        System.out.println("Found " + words.size() + " words of which " +
+                unique.size() + " are unique.");
 
         System.out.println(new SimpleDateFormat("mm:ss.SSS").format(new Date(end - start)));
     }
