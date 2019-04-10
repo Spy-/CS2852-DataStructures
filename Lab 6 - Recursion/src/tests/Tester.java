@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class tester {
+public class Tester {
     private AutoComplete strategy;
     private GameBoard gameBoard;
 
@@ -27,6 +28,16 @@ public class tester {
         assertEquals(202, result.size());
     }
 
+    @Test
+    public void testHighScoringBoard() throws FileNotFoundException {
+        strategy = AutoComplete.linkedIteratorFactory();
+        strategy.initialize("BoggleOnlineHigh answers.txt");
+        gameBoard = new GameBoard(strategy);
+        gameBoard.load(Paths.get("BoggleOnlineHigh grid.txt"));
+
+        Set<String> result = new HashSet<>(gameBoard.findWords());
+        assertEquals(1318, result.size());
+    }
     @Test
     public void test1() throws FileNotFoundException {
         strategy = AutoComplete.ArrayIndexFactory();
