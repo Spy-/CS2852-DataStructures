@@ -27,9 +27,18 @@ public interface AutoCompleter {
      * Does the dictionary have the desired word
      *
      * @param target the word
+     * @param words the list of words
      * @return true if the word is in the list
      */
     default boolean contains(String target, List<String> words) {
         return words.contains(target);
+    }
+
+    /**
+     * Should the method use a SortedArrayList instead of a normal ArrayList
+     * @return true if it should use sorted
+     */
+    default boolean useSorted() {
+        return false;
     }
 }

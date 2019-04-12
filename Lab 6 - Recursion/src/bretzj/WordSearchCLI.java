@@ -10,9 +10,17 @@ package bretzj;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static bretzj.AutoComplete.*;
+import static bretzj.AutoComplete.arrayIndexFactory;
+import static bretzj.AutoComplete.arrayIteratorFactory;
+import static bretzj.AutoComplete.linkedIndexFactory;
+import static bretzj.AutoComplete.linkedIteratorFactory;
+import static bretzj.AutoComplete.sortedArrayFactory;
 
 /**
  * Main class for Lab 6

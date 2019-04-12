@@ -18,7 +18,8 @@ import java.util.*;
  */
 public class AutoComplete {
 
-    protected ArrayList<String> words = new ArrayList<>();
+    private ArrayList<String> words = new ArrayList<>();
+    private SortedArrayList<String> sorted = new SortedArrayList<>();
     private boolean isInitialized = false;
     private AutoCompleter method;
 
@@ -40,12 +41,17 @@ public class AutoComplete {
     public void initialize(String filename) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(filename));
         words.clear();
+        sorted.clear();
 
         while (scanner.hasNextLine()) {
             words.add(scanner.nextLine());
         }
 
-        words = new ArrayList<>(new HashSet<>(words));
+        // get rid of duplicates
+        Set<String> unique = new HashSet<>(words);
+
+        words = new ArrayList<>(unique);
+        sorted.addAll(unique);
 
         isInitialized = true;
     }
@@ -57,7 +63,7 @@ public class AutoComplete {
      * @return true if the word is in the dictionary
      */
     public boolean contains(String target) {
-        return method.contains(target, words);
+        return method.useSorted() ? method.contains(target, sorted) : method.contains(target, words);
     }
 
     /**
@@ -166,10 +172,8 @@ public class AutoComplete {
             @Override
             public ArrayList<String> allThatBeginsWith(String prefix, List<String> words) {
                 ArrayList<String> matches = new ArrayList<>();
-                SortedArrayList<String> sorted = new SortedArrayList<>();
-                sorted.addAll(words);
 
-                for (String word : sorted) {
+                for (String word : words) {
                     if (word.startsWith(prefix)) {
                         matches.add(word);
                     }
@@ -179,9 +183,12 @@ public class AutoComplete {
 
             @Override
             public boolean contains(String target, List<String> words) {
-                SortedArrayList<String> sorted = new SortedArrayList<>();
-                sorted.addAll(words);
-                return sorted.contains(target);
+                return words.contains(target);
+            }
+
+            @Override
+            public boolean useSorted() {
+                return true;
             }
         });
     }

@@ -389,12 +389,12 @@ loins
 lore
 lores
 Found 67 words of which 67 are unique.
-01:44.868
+00:01.521
 ```
 
 ## Description of approach for experimental benchmarking
 
-Generated boards and their solutions from an online boggle game solver [found here](http://www.fuzzylogicinc.net/boggle/)
+Generated boards and their solutions from an online boggle game solver [found here](http://www.fuzzylogicinc.net/boggle/) and ran them through the algorithm.
 
 ### Benchmarking results
 
@@ -2324,4 +2324,8 @@ Found 1638 of which 1318 are unique.
 
 ### Conclusions based on your benchmarking tests
 
-REPLACE THIS TEXT WITH YOUR DESCRIPTION (MAY BE MULTIPLE PARAGRAPHS)
+Obviously the SortedArrayList is the fastest assuming the list has been previously sorted because of the binary search being O(log(n)). 
+
+Both the Iterated ArrayList and LinkedList take roughly the same time to execute.
+
+The two indexed lists obviously were going to have the worst times. The LinkedList would be so bad that I didn't even bother trying to use a it with 100k+ words

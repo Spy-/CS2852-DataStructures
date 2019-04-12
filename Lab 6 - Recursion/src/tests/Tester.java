@@ -41,9 +41,13 @@ public class Tester {
         assertEquals(202, result.size());
     }
 
+    /**
+     * Tests an another board from `fuzzylogicinc.net/boggle/`
+     * @throws FileNotFoundException some exception
+     */
     @Test
     public void testHighScoringBoard() throws FileNotFoundException {
-        strategy = AutoComplete.linkedIteratorFactory();
+        strategy = AutoComplete.sortedArrayFactory();
         strategy.initialize("BoggleOnlineHigh answers.txt");
         gameBoard = new GameBoard(strategy);
         gameBoard.load(Paths.get("BoggleOnlineHigh grid.txt"));
