@@ -3,7 +3,7 @@
  * Spring 2019
  * Lab 7 - Morse Code Decoder
  * Name: John Bretz
- * Created: 4/5/2019
+ * Created: 4/22/2019
  */
 package bretzj;
 
