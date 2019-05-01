@@ -7,7 +7,14 @@
  */
 package bretzj;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for a lookup table map
@@ -211,6 +218,10 @@ public class LookupTable<K extends Comparable<K>, V> implements Map {
      * @return the index else the location where the key should be added
      */
     private int findIndex(K key) {
-        return Collections.binarySearch(entries, new AbstractMap.SimpleEntry<>(key, null), Entry.comparingByKey());
+        return Collections.binarySearch(
+                entries,
+                new AbstractMap.SimpleEntry<>(key, null),
+                Entry.comparingByKey()
+        );
     }
 }

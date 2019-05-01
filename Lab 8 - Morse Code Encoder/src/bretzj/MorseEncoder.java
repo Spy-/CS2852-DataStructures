@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class MorseEncoder {
 
     private static LookupTable table = new LookupTable();
-    private static final String dictionary = "MorseDictionary.txt";
+    private static final String DICTIONARY = "MorseDictionary.txt";
     private static final boolean DEV_MODE = false;
 
     /**
@@ -36,7 +36,7 @@ public class MorseEncoder {
         System.out.println("Enter an output filename:");
         String outputFile = DEV_MODE ? "output.txt" : input.nextLine();
 
-        loadDictionary(new File(dictionary));
+        loadDictionary(new File(DICTIONARY));
         encodeFile(new File(inputFile), new File(outputFile));
     }
 
