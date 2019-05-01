@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 8 - Morse Code Encoder
+ * Name: John Bretz
+ * Created: 4/26/2019
+ */
 package bretzj;
 
 import java.io.File;
@@ -6,12 +13,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Main class
+ */
 public class MorseEncoder {
 
     private static LookupTable table = new LookupTable();
     private static final String dictionary = "MorseDictionary.txt";
-    private static final boolean DEV_MODE = true;
+    private static final boolean DEV_MODE = false;
 
+    /**
+     * Main entry point
+     *
+     * @param args some cmd line arguments
+     */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -25,6 +40,11 @@ public class MorseEncoder {
         encodeFile(new File(inputFile), new File(outputFile));
     }
 
+    /**
+     * Adds keys & values to the lookup table base on the passed file
+     *
+     * @param file a file with keys and values
+     */
     public static void loadDictionary(File file) {
         try (Scanner scan = new Scanner(file)) {
             while (scan.hasNextLine()) {
@@ -41,14 +61,18 @@ public class MorseEncoder {
         }
     }
 
+    /**
+     * Translates the text of one file to morse code in another file
+     *
+     * @param input  the input file
+     * @param output the output file
+     */
     public static void encodeFile(File input, File output) {
         try (Scanner scan = new Scanner(input)) {
             FileWriter writer = new FileWriter(output);
 
             while (scan.hasNextLine()) {
                 char[] symbols = scan.nextLine().toUpperCase().toCharArray();
-
-//                System.out.println(Arrays.toString(symbols));
 
                 for (char c : symbols) {
                     String pattern = String.valueOf(table.get(String.valueOf(c)));
@@ -66,9 +90,10 @@ public class MorseEncoder {
             writer.flush();
             writer.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("The file does not exist");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Some IOException occurred.");
+            System.out.println(e.getMessage());
         }
     }
 }
