@@ -9,7 +9,6 @@ package bretzj;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -18,8 +17,6 @@ import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static java.lang.Math.abs;
 
 /**
  * class for the JavaFx Controller
@@ -39,9 +36,8 @@ public class Controller {
     private Label matchesCount;
 
     private Stage stage;
-    private AutoCompleter ac;
+    private BaseAutoCompleter ac;
     private String dictionaryFileName;
-    private String previousSearch;
 
     @FXML
     void prefixTree() throws FileNotFoundException {
@@ -76,25 +72,24 @@ public class Controller {
             }
         }
         reset();
+        time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
+        matchesCount.setText("Matches Loaded: " + ac.size());
     }
 
     /**
      * Called whenever a key is typed in the search field
-     *
-     * @param event the JavaFx event
      */
     @FXML
-    void searchUpdate(KeyEvent event) {
+    void searchUpdate() {
         try {
-            if (abs(previousSearch.length() - search.getText().length()) <= 1) {
-                List<String> strings = ac.allThatBeginsWith(search.getText());
+            if (search.getText().length() >= 1) {
+                List<String> strings = ac.allThatBeginsWith(search.getText().toLowerCase());
 
                 StringBuilder output = new StringBuilder();
                 for (String s : strings) {
                     output.append(s).append("\n");
                 }
 
-                previousSearch = search.getText();
                 matches.setText(output.toString());
                 matchesCount.setText("matches Found: " + strings.size());
                 time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
@@ -112,10 +107,9 @@ public class Controller {
      * Called when program is launched
      */
     @FXML
-    void initialize() throws FileNotFoundException {
+    void initialize() {
         inject(Main.stage);
         ac = new PrefixTreeCompleter();
-        ac.initialize("words.txt");
     }
 
     /**
@@ -126,7 +120,6 @@ public class Controller {
         matches.setText("");
         matchesCount.setText("matches Found: 0");
         time.setText("Time Required: 0 nanoseconds");
-        previousSearch = "";
     }
 
     /**

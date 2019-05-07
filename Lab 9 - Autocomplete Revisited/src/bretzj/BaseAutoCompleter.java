@@ -31,4 +31,6 @@ public abstract class BaseAutoCompleter implements AutoCompleter {
         }
         throw new IllegalStateException("Must call Initialize() prior to calling this method");
     }
+
+    public abstract int size();
 }
