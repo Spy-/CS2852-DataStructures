@@ -1,5 +1,10 @@
 package bretzj;
 
+import bretzj.completers.ArrayIndexCompleter;
+import bretzj.completers.ArrayIteratorCompleter;
+import bretzj.completers.BaseAutoCompleter;
+import bretzj.completers.PrefixTreeCompleter;
+
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -7,6 +7,8 @@
  */
 package bretzj;
 
+import bretzj.completers.BaseAutoCompleter;
+import bretzj.completers.PrefixTreeCompleter;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
