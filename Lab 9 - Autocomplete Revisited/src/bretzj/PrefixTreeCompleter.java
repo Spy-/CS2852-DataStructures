@@ -35,14 +35,15 @@ public class PrefixTreeCompleter extends BaseAutoCompleter {
         }
     }
 
-    private boolean loadCSVFile(String filename) throws FileNotFoundException {
+    public boolean loadCSVFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
             while (scan.hasNextLine()) {
-                tree.insert(scan.nextLine());
+                String[] part = scan.nextLine().split(",");
+                tree.insert(part[1]);
             }
             return true;
         }
-    } //todo
+    }
 
     @Override
     public List<String> allThatBeginsWith(String prefix) {

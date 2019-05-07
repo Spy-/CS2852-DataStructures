@@ -57,6 +57,7 @@ public class Controller {
     void open() {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text & CSV Files", "*.txt", "*.csv"),
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
                 new FileChooser.ExtensionFilter("All Files", "*")
