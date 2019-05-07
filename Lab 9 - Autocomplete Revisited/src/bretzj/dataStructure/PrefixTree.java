@@ -1,18 +1,22 @@
 package bretzj.dataStructure;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PrefixTree {
     private static class Node {
         char c;
-        Node parent;
-        HashMap<Character, Node> children = new HashMap<>();
+        Node[] children;
         boolean isLeaf;
+        Node parent;
 
         private Node() {
+            this.children = new Node[38];
         }
 
         private Node(char c) {
+            this.children = new Node[26];
             this.c = c;
         }
     }
@@ -21,6 +25,7 @@ public class PrefixTree {
     private Node prefixRoot;
     private String currentPrefix;
     private List<String> foundWords = new ArrayList<>();
+    private int size = 0;
 
     public PrefixTree() {
         root = new Node();
@@ -28,25 +33,28 @@ public class PrefixTree {
 
     // adds a word to tree
     public void insert(String word) {
-        HashMap<Character, Node> children = root.children;
         Node parent = root;
+        char[] chars = word.toCharArray();
+        try {
+            for (char c : chars) {
+                int index = Character.isLetter(c) ? c - 'a' : Character.isDigit(c) ? c - 'a' + 52 : (c == '.' || c == '-') ? c - 'a' + 53 : -1;
 
-        for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            Node t;
-            if (children.containsKey(c)) {
-                t = children.get(c);
-            } else {
-                t = new Node(c);
-                t.parent = parent;
-                children.put(c, t);
+                if (index < 0) {
+                    break;
+                }
+                if (parent.children[index] == null) {
+                    Node temp = new Node(c);
+                    parent.children[index] = temp;
+                    temp.parent = parent;
+                    parent = temp;
+                    ++size;
+                } else {
+                    parent = parent.children[index];
+                }
             }
-            children = t.children;
-            parent = t;
-
-            if (i == word.length() - 1) {
-                t.isLeaf = true;
-            }
+            parent.isLeaf = true;
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(word);
         }
     }
 
@@ -56,23 +64,29 @@ public class PrefixTree {
     }
 
     private Node searchNode(String str) {
-        Map<Character, Node> children = root.children;
-        Node t = null;
+        Node parent = root;
         char[] chars = str.toCharArray();
 
-        for (char c : chars) {
-            if (children.containsKey(c)) {
-                t = children.get(c);
-                children = t.children;
-            } else {
-                return null;
+        try {
+            for (char c : chars) {
+                int index = Character.isLetter(c) ? c - 'a' : Character.isDigit(c) ? c - 'a' + 52 : (c == '.' || c == '-') ? c - 'a' + 53 : -1;
+                if (parent.children[index] != null) {
+                    parent = parent.children[index];
+                } else {
+                    return null;
+                }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
         }
 
-        prefixRoot = t;
+        if (parent == root) {
+            return null;
+        }
+
+        prefixRoot = parent;
         currentPrefix = str;
-        foundWords.clear();
-        return t;
+        return parent;
     }
 
     private void wordTraversal(Node node) {
@@ -94,16 +108,17 @@ public class PrefixTree {
             foundWords.add(currentPrefix + suffix.toString());
         }
 
-        Iterator itr = node.children.keySet().iterator();
-        LinkedList<Character> others = new LinkedList<>();
+        LinkedList<Node> others = new LinkedList<>();
 
-        while (itr.hasNext()) {
-            others.addLast((Character) itr.next());
+        for (Node n : node.children) {
+            if (n != null) {
+                others.addLast(n);
+            }
         }
 
         // recurse for every other letter from prefix root
-        for (Character character : others) {
-            wordTraversal(node.children.get(character));
+        for (Node n : others) {
+            wordTraversal(n);
         }
     }
 
@@ -113,5 +128,9 @@ public class PrefixTree {
             wordTraversal(searchNode(prefix));
         }
         return foundWords;
+    }
+
+    public int size() {
+        return size;
     }
 }

@@ -15,18 +15,7 @@ public class PrefixTreeCompleter extends BaseAutoCompleter {
         tree = new PrefixTree();
     }
 
-    @Override
-    public void initialize(String filename) throws FileNotFoundException {
-        start = System.nanoTime();
-        if (filename.endsWith(".txt")) {
-            dictionaryLoaded = loadTextFile(filename);
-        } else if (filename.endsWith(".csv")) {
-            dictionaryLoaded = loadCSVFile(filename);
-        }
-        end = System.nanoTime();
-    }
-
-    private boolean loadTextFile(String filename) throws FileNotFoundException {
+    public boolean loadTextFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
             while (scan.hasNextLine()) {
                 tree.insert(scan.nextLine());
@@ -51,5 +40,10 @@ public class PrefixTreeCompleter extends BaseAutoCompleter {
         List<String> list = tree.getWordsFromPrefix(prefix);
         end = System.nanoTime();
         return list;
+    }
+
+    @Override
+    public int size() {
+        return tree.size();
     }
 }
