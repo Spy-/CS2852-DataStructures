@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioMenuItem?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bretzj.Controller">
+      xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bretzj.Controller">
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#open" text="Open"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Strategy">
-            <RadioMenuItem mnemonicParsing="false" onAction="#prefixTree" text="ArrayList Index">
+            <RadioMenuItem mnemonicParsing="false" onAction="#prefixTree" text="Prefix Tree">
                 <toggleGroup>
                     <ToggleGroup fx:id="strat"/>
                 </toggleGroup>
             </RadioMenuItem>
+            <RadioMenuItem mnemonicParsing="false" onAction="#arraySorted" text="Sorted ArrayList" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#arrayIndex" text="ArrayList Index" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#arrayIterator" text="ArrayList Iterator" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#linkedIndex" text="LinkedList Index" toggleGroup="$strat"/>
+            <RadioMenuItem mnemonicParsing="false" onAction="#linkedIterator" text="LinkedList Iterator" toggleGroup="$strat"/>
         </Menu>
     </MenuBar>
     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <VBox prefHeight="375.0" prefWidth="10.0"/>
         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Search:"/>
-            <TextField fx:id="search" onKeyTyped="#searchUpdate" disable="true"/>
+            <TextField fx:id="search" disable="true" onKeyTyped="#searchUpdate"/>
             <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Matches:"/>
             <TextArea fx:id="matches" editable="false" prefHeight="238.0" prefWidth="200.0" VBox.vgrow="SOMETIMES"/>
             <HBox prefHeight="25.0" prefWidth="200.0">

@@ -7,8 +7,7 @@
  */
 package bretzj;
 
-import bretzj.completers.BaseAutoCompleter;
-import bretzj.completers.PrefixTreeCompleter;
+import bretzj.completers.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -17,7 +16,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,8 +45,67 @@ public class Controller {
     @FXML
     void prefixTree() throws FileNotFoundException {
         ac = new PrefixTreeCompleter();
-        ac.initialize(dictionaryFileName);
+        System.out.println("Using Prefix Tree");
         reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
+    }
+
+    @FXML
+    void arraySorted() throws FileNotFoundException {
+        ac = new SortedArrayCompleter();
+        System.out.println("Using Sorted Array");
+        reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
+    }
+
+    @FXML
+    void arrayIndex() throws FileNotFoundException {
+        ac = new ArrayIndexCompleter(new ArrayList<>());
+        System.out.println("Using Array Index");
+        reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
+    }
+
+    @FXML
+    void arrayIterator() throws FileNotFoundException {
+        ac = new ArrayIteratorCompleter(new ArrayList<>());
+        System.out.println("Using Array Iterator");
+        reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
+    }
+
+    @FXML
+    void linkedIndex() throws FileNotFoundException {
+        ac = new ArrayIndexCompleter(new LinkedList<>());
+        System.out.println("Using Linked Index");
+        reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
+    }
+
+    @FXML
+    void linkedIterator() throws FileNotFoundException {
+        ac = new ArrayIteratorCompleter(new LinkedList<>());
+        System.out.println("Using Linked Iterator");
+        reset();
+        if (dictionaryFileName != null) {
+            ac.initialize(dictionaryFileName);
+            updateOnOpen();
+        }
     }
 
     /**
@@ -74,6 +134,10 @@ public class Controller {
             }
         }
         reset();
+        updateOnOpen();
+    }
+
+    private void updateOnOpen() {
         time.setText("Time Required: " + formatTime(ac.getLastOperationTime()));
         matchesCount.setText("Matches Loaded: " + ac.size());
     }
