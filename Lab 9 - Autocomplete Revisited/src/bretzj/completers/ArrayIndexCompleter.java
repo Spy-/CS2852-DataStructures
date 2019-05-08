@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class ArrayIndexCompleter extends BaseAutoCompleter {
 
-    private ArrayList<String> words;
+    private List<String> words;
 
-    public ArrayIndexCompleter() {
-        words = new ArrayList<>();
+    public ArrayIndexCompleter(List<String> list) {
+        words = list;
     }
 
     @Override
@@ -28,6 +28,7 @@ public class ArrayIndexCompleter extends BaseAutoCompleter {
     @Override
     public boolean loadCSVFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
+            words.clear();
             while (scan.hasNextLine()) {
                 String[] part = scan.nextLine().split(",");
                 words.add(part[1]);
@@ -44,12 +45,14 @@ public class ArrayIndexCompleter extends BaseAutoCompleter {
     @Override
     public List<String> allThatBeginsWith(String prefix) {
         ArrayList<String> startsWith = new ArrayList<>();
+        start = System.nanoTime();
         for (int i = 0; i < words.size(); i++) {
             String s = words.get(i);
             if (s.startsWith(prefix)) {
                 startsWith.add(s);
             }
         }
+        end = System.nanoTime();
         return startsWith;
     }
 }
