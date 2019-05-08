@@ -1,8 +1,9 @@
 package bretzj.dataStructure;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PrefixTree {
     private static class Node {
@@ -47,11 +48,11 @@ public class PrefixTree {
                     parent.children[index] = temp;
                     temp.parent = parent;
                     parent = temp;
-                    ++size;
                 } else {
                     parent = parent.children[index];
                 }
             }
+            ++size;
             parent.isLeaf = true;
         } catch (IndexOutOfBoundsException e) {
             System.out.println(word);
@@ -108,11 +109,14 @@ public class PrefixTree {
             foundWords.add(currentPrefix + suffix.toString());
         }
 
-        LinkedList<Node> others = new LinkedList<>();
+        Node[] others = new Node[Math.toIntExact(Arrays.stream(node.children).filter(Objects::nonNull).count())];
+        int othersIndex = 0;
 
-        for (Node n : node.children) {
+        for (int i = 0, childrenLength = node.children.length; i < childrenLength; i++) {
+            Node n = node.children[i];
             if (n != null) {
-                others.addLast(n);
+                others[othersIndex] = n;
+                ++othersIndex;
             }
         }
 
