@@ -17,6 +17,7 @@ public class PrefixTreeCompleter extends BaseAutoCompleter {
 
     public boolean loadTextFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
+            tree = new PrefixTree();
             while (scan.hasNextLine()) {
                 tree.insert(scan.nextLine());
             }
@@ -26,6 +27,7 @@ public class PrefixTreeCompleter extends BaseAutoCompleter {
 
     public boolean loadCSVFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
+            tree = new PrefixTree();
             while (scan.hasNextLine()) {
                 String[] part = scan.nextLine().split(",");
                 tree.insert(part[1]);

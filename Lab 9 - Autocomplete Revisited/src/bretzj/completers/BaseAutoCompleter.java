@@ -6,7 +6,7 @@ public abstract class BaseAutoCompleter implements AutoCompleter {
 
     protected long start;
     protected long end;
-    protected boolean dictionaryLoaded = false;
+    private boolean dictionaryLoaded = false;
 
     @Override
     public void initialize(String filename) throws FileNotFoundException {
