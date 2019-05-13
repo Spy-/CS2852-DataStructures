@@ -1,3 +1,10 @@
+/*
+ * Course: CS2852
+ * Spring 2019
+ * Lab 9 - Autocomplete Revisited
+ * Name: John Bretz
+ * Created: 5/7/19
+ */
 package bretzj.completers;
 
 import java.io.File;
@@ -7,10 +14,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Completer that utilizes an ArrayList for storing words and
+ * binary search for finding words
+ */
 public class SortedArrayCompleter extends BaseAutoCompleter {
 
     private List<String> words = new ArrayList<>();
 
+    /**
+     * Loads a text file
+     * @param filename the file name
+     * @return true if load was successful
+     * @throws FileNotFoundException if the can't be found
+     */
     @Override
     public boolean loadTextFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
@@ -23,6 +40,12 @@ public class SortedArrayCompleter extends BaseAutoCompleter {
         }
     }
 
+    /**
+     * Loads a csv file
+     * @param filename the file name
+     * @return true if load was successful
+     * @throws FileNotFoundException if the file can't be found
+     */
     @Override
     public boolean loadCSVFile(String filename) throws FileNotFoundException {
         try (Scanner scan = new Scanner(new File(filename))) {
@@ -36,11 +59,20 @@ public class SortedArrayCompleter extends BaseAutoCompleter {
         }
     }
 
+    /**
+     * The number of words in the structure
+     * @return the size
+     */
     @Override
     public int size() {
         return words.size();
     }
 
+    /**
+     * Finds all the words with the given prefix
+     * @param prefix the prefix
+     * @return a list of words
+     */
     @Override
     public List<String> allThatBeginsWith(String prefix) {
         start = System.nanoTime();
@@ -56,6 +88,11 @@ public class SortedArrayCompleter extends BaseAutoCompleter {
         return foundWords;
     }
 
+    /**
+     * Finds the index of first word with the given prefix
+     * @param prefix the prefix
+     * @return the index else -1
+     */
     private int firstIndex(String prefix) {
         if (words.size() <= 0) {
             return -1;
@@ -83,6 +120,11 @@ public class SortedArrayCompleter extends BaseAutoCompleter {
         return -1;
     }
 
+    /**
+     * Finds the index of the last word with the given prefix
+     * @param prefix the prefix
+     * @return the index else -1
+     */
     private int lastIndex(String prefix) {
         if (words.size() <= 0) {
             return -1;
@@ -110,9 +152,24 @@ public class SortedArrayCompleter extends BaseAutoCompleter {
         return -1;
     }
 
+    /**
+     * Compares two Strings against each other for binary search
+     * @param prefix the prefix
+     * @param word the word to compare
+     * @return 1 if word is after prefix. -1 if word is before prefix
+     */
     private int compare(String prefix, String word) {
         int len = word.length() < prefix.length() ? word.length() : prefix.length();
 
         return prefix.compareTo(word.substring(0, len));
+    }
+
+    /**
+     * The name of the completer
+     * @return the name
+     */
+    @Override
+    public String getName() {
+        return "SortedArray";
     }
 }
